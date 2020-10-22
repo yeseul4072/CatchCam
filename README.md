@@ -4,7 +4,7 @@ Ball tracking을 활용한 자율주행 촬영 드론 서비스
 
 
 
-### 프로젝트 소개
+### 💻 프로젝트 소개
 
 * 경기하는 내 모습 간직하고 싶을 때
 * 경기 분석이 필요할 때
@@ -24,16 +24,15 @@ CatchCam은 위 요구사항을 만족시키기 위해 기획하였습니다.
 
 
 ### 📃 ERD
-![ERD](/uploads/7b47f28b8aebcfb9ff9dd87d061b1f91/ERD.JPG)
-
+<img src="/uploads/7b47f28b8aebcfb9ff9dd87d061b1f91/ERD.JPG"  width="700">
 
 
 
 ### 📅 개발 일정
-![개발_일정](/uploads/f3430139b1410bff79c7d1d84e126af3/개발_일정.png)
+<img src="/uploads/f3430139b1410bff79c7d1d84e126af3/개발_일정.png"  width="700">
 
 
 
 
-### 👨‍👨‍👧‍👦 팀원
-![팀원](/uploads/12f9a8f82ecc533fd8190b53a71ec8bc/팀원.png)
+### 👪 팀원
+<img src="/uploads/12f9a8f82ecc533fd8190b53a71ec8bc/팀원.png"  width="700">

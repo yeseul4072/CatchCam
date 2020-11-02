@@ -23,11 +23,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenProvider {
 
-	// application.propertie?— ?ˆ?Š” key ê°? ë§¤í•‘
+	// application.propertieì— ìˆëŠ” key ê°’ ë§¤í•‘
 	@Value("${spring.jwt.secret}")
 	private String secretKey;
 
-	private long tokenValidMilisecond = 60 * 60 * 1000000000L; // 1 ?‹œê°„ë§Œ ?† ?° ?œ ?š¨
+	private long tokenValidMilisecond = 60 * 60 * 1000000000L; // 1 ì‹œê°„ë§Œ í† í° ìœ íš¨
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -37,35 +37,35 @@ public class JwtTokenProvider {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 
-	// JWT ?† ?° ?ƒ?„±
+	// JWT í† í° ìƒì„±
 	public String createToken(String userId, List<String> roles) {
-		Claims claims = Jwts.claims().setSubject(userId); // JWT payload ?— ???¥?˜?Š” ? •ë³´ë‹¨?œ„
+		Claims claims = Jwts.claims().setSubject(userId); // JWT payload ì— ì €ì¥ë˜ëŠ” ì •ë³´ë‹¨ìœ„
 		claims.put("roles", roles);
 		Date now = new Date();
-		return Jwts.builder().setClaims(claims) // ? •ë³? ???¥
-				.setIssuedAt(now) // ?† ?° ë°œí–‰ ?‹œê°? ? •ë³?
+		return Jwts.builder().setClaims(claims) // ì •ë³´ ì €ì¥
+				.setIssuedAt(now) // í† í° ë°œí–‰ ì‹œê°„ ì •ë³´
 				.setExpiration(new Date(now.getTime() + tokenValidMilisecond)) // set Expire Time
-				.signWith(SignatureAlgorithm.HS256, secretKey) // ?‚¬?š©?•  ?•”?˜¸?™” ?•Œê³ ë¦¬ì¦˜ê³¼
-				.compact(); // signature ?— ?“¤?–´ê°? secretê°? ?„¸?Œ…
+				.signWith(SignatureAlgorithm.HS256, secretKey) // ì‚¬ìš©í•  ì•”í˜¸í™” ì•Œê³ ë¦¬ì¦˜ê³¼
+				.compact(); // signature ì— ë“¤ì–´ê°ˆ secretê°’ ì„¸íŒ…
 	}
 
-	// Jwt ?† ?°?œ¼ë¡? ?¸ì¦? ? •ë³´ë?? ì¡°íšŒ
+	// Jwt í† í°ìœ¼ë¡œ ì¸ì¦ ì •ë³´ë¥¼ ì¡°íšŒ
 	public Authentication getAuthentication(String token) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
 
-	// ?† ?°?—?„œ ?šŒ?› ? •ë³? ì¶”ì¶œ
+	// í† í°ì—ì„œ íšŒì› ì •ë³´ ì¶”ì¶œ
 	public String getUserPk(String token) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 	}
 
-	// Request?˜ Header?—?„œ token ê°’ì„ ê°?? ¸?˜µ?‹ˆ?‹¤. "X-AUTH-TOKEN" : "TOKENê°?'
+	// Requestì˜ Headerì—ì„œ token ê°’ì„ ê°€ì ¸ì˜µë‹ˆë‹¤. "X-AUTH-TOKEN" : "TOKENê°’'
 	public String resolveToken(HttpServletRequest request) {
 		return request.getHeader("X-AUTH-TOKEN");
 	}
 
-	// ?† ?°?˜ ?œ ?š¨?„± + ë§Œë£Œ?¼? ?™•?¸
+	// í† í°ì˜ ìœ íš¨ì„± + ë§Œë£Œì¼ì í™•ì¸
 	public boolean validateToken(String jwtToken) {
 		try {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);

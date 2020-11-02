@@ -20,14 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
-	// authenticationManagerë¥? Bean ?“±ë¡í•©?‹ˆ?‹¤.
+	// authenticationManagerë¥¼ Bean ë“±ë¡í•©ë‹ˆë‹¤.
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
-	// ?•”?˜¸?™”?— ?•„?š”?•œ PasswordEncoder ë¥? Bean ?“±ë¡í•©?‹ˆ?‹¤.
+	// ì•”í˜¸í™”ì— í•„ìš”í•œ PasswordEncoder ë¥¼ Bean ë“±ë¡í•©ë‹ˆë‹¤.
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -35,18 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().disable() // rest api ?´ë¯?ë¡? ê¸°ë³¸?„¤? • ?‚¬?š©?•ˆ?•¨. ê¸°ë³¸?„¤? •?? ë¹„ì¸ì¦ì‹œ ë¡œê·¸?¸?¼ ?™”ë©´ìœ¼ë¡? ë¦¬ë‹¤?´? ‰?Š¸ ?œ?‹¤.
-				.csrf().disable() // rest api?´ë¯?ë¡? csrf ë³´ì•ˆ?´ ?•„?š”?—†?œ¼ë¯?ë¡? disableì²˜ë¦¬.
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token?œ¼ë¡? ?¸ì¦í•˜ë¯?ë¡? ?„¸?…˜??
-																							// ?•„?š”?—†?œ¼ë¯?ë¡? ?ƒ?„±?•ˆ?•¨.
-				.and().authorizeRequests() // ?‹¤?Œ ë¦¬í?˜ìŠ¤?Š¸?— ???•œ ?‚¬?š©ê¶Œí•œ ì²´í¬
-				.antMatchers("/**/login", "/**/signup", "/**/valid/{nickname}").permitAll() // ê°??… ê´?? ¨ API?Š” ?ˆ„êµ¬ë‚˜ ? ‘ê·? ê°??Š¥
-				.antMatchers("/**/count").permitAll() // ë©”ì¸ ?™”ë©´ì— ê´?? ¨?œ API ?˜?•œ ?ˆ„êµ¬ë‚˜ ? ‘ê·? ê°??Š¥
+		http.httpBasic().disable() // rest api ì´ë¯€ë¡œ ê¸°ë³¸ì„¤ì • ì‚¬ìš©ì•ˆí•¨. ê¸°ë³¸ì„¤ì •ì€ ë¹„ì¸ì¦ì‹œ ë¡œê·¸ì¸í¼ í™”ë©´ìœ¼ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸ ëœë‹¤.
+				.csrf().disable() // rest apiì´ë¯€ë¡œ csrf ë³´ì•ˆì´ í•„ìš”ì—†ìœ¼ë¯€ë¡œ disableì²˜ë¦¬.
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt tokenìœ¼ë¡œ ì¸ì¦í•˜ë¯€ë¡œ ì„¸ì…˜ì€
+																							// í•„ìš”ì—†ìœ¼ë¯€ë¡œ ìƒì„±ì•ˆí•¨.
+				.and().authorizeRequests() // ë‹¤ìŒ ë¦¬í€˜ìŠ¤íŠ¸ì— ëŒ€í•œ ì‚¬ìš©ê¶Œí•œ ì²´í¬
+				.antMatchers("/**/login", "/**/signup", "/**/valid/{nickname}").permitAll() // ê°€ì… ê´€ë ¨ APIëŠ” ëˆ„êµ¬ë‚˜ ì ‘ê·¼ ê°€ëŠ¥
+				.antMatchers("/**/count").permitAll() // ë©”ì¸ í™”ë©´ì— ê´€ë ¨ëœ API ë˜í•œ ëˆ„êµ¬ë‚˜ ì ‘ê·¼ ê°€ëŠ¥
 //				.antMatchers(HttpMethod.GET, "/**/lectures", "/**/lectures/count", "/**/lectures/tags", "/**/lectures/{lectureId}").permitAll()
 				.antMatchers("/**/").permitAll()
-				.anyRequest().hasRole("USER") // ê·¸ì™¸ ?‚˜ë¨¸ì? ?š”ì²??? ëª¨ë‘ ?¸ì¦ëœ ?šŒ?›ë§? ? ‘ê·? ê°??Š¥
+				.anyRequest().hasRole("USER") // ê·¸ì™¸ ë‚˜ë¨¸ì§€ ìš”ì²­ì€ ëª¨ë‘ ì¸ì¦ëœ íšŒì›ë§Œ ì ‘ê·¼ ê°€ëŠ¥
 				.and().addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-						UsernamePasswordAuthenticationFilter.class); // jwt token ?•„?„°ë¥? id/password ?¸ì¦? ?•„?„° ? „?— ?„£?Š”?‹¤
+						UsernamePasswordAuthenticationFilter.class); // jwt token í•„í„°ë¥¼ id/password ì¸ì¦ í•„í„° ì „ì— ë„£ëŠ”ë‹¤
 	}
 
 	@Override // ignore check swagger resource

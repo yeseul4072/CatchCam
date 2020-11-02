@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
+
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
 	@Autowired
@@ -22,16 +23,16 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		this.jwtTokenProvider = jwtTokenProvider;
 	}
 
-	// Requestë¡? ?“¤?–´?˜¤?Š” Jwt Token?˜ ?œ ?š¨?„±?„ ê²?ì¦?(jwtTokenProvider.validateToken)?•˜?Š” filterë¥?
-	// filterChain?— ?“±ë¡í•©?‹ˆ?‹¤.
+	// Requestë¡œ ë“¤ì–´ì˜¤ëŠ” Jwt Tokenì˜ ìœ íš¨ì„±ì„ ê²€ì¦(jwtTokenProvider.validateToken)í•˜ëŠ” filterë¥¼
+	// filterChainì— ë“±ë¡í•©ë‹ˆë‹¤.
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
-		// ?—¤?”?—?„œ JWTë¥? ë°›ì•„?˜´
+		// í—¤ë”ì—ì„œ JWTë¥¼ ë°›ì•„ì˜´
 		String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-		// ?œ ?š¨?•œ ?† ?°?¸ì§? ?™•?¸
+		// ìœ íš¨í•œ í† í°ì¸ì§€ í™•ì¸
 		if (token != null && jwtTokenProvider.validateToken(token)) {
-			// ?† ?°?´ ?œ ?š¨?•˜ë©? ?† ?°?œ¼ë¡? ë¶??„° ?œ ?? ? •ë³? ë°›ì•„?˜´
+			// í† í°ì´ ìœ íš¨í•˜ë©´ í† í°ìœ¼ë¡œ ë¶€í„° ìœ ì € ì •ë³´ ë°›ì•„ì˜´
 			Authentication authentication = jwtTokenProvider.getAuthentication(token);
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -39,3 +40,4 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		filterChain.doFilter(request, response);
 	}
 }
+

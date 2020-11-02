@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 
-@WebFilter(urlPatterns = { "/api/**" }, description = "API ?•„?„°")
+@WebFilter(urlPatterns = { "/api/**" }, description = "API í•„í„°")
 @Component("CorsFilter")
 public class CORSFilter implements Filter {
 	@Override

@@ -22,18 +22,18 @@
                         <v-text-field
                             label="이름"
                             placeholder="이름"
-                            v-model="name"
+                            v-model="signupData.userName"
                         ></v-text-field>
                         <v-text-field
                             label="이메일"
                             placeholder="이메일"
-                            v-model="email"
+                            v-model="signupData.email"
                             :hint="error.email"
                         ></v-text-field>
                         <v-text-field
                             label="비밀번호"
                             placeholder="비밀번호"
-                            v-model="password"
+                            v-model="signupData.password"
                             :hint="error.password"
                         ></v-text-field>
                         <v-text-field
@@ -75,11 +75,11 @@ export default {
     data() {
         return {
             signupData: {
-                name: null,
                 email: null,
                 password: null,
-                passwordConfirm: null,
+                userName: null,
             },
+            passwordConfirm: null,
             isComplete: false,
             error: {
                 email: false,
@@ -103,7 +103,7 @@ export default {
         .letters()
     },
     watch: {
-        'name': function() {
+        'userName': function() {
             this.checkAll()
         },
         'email': function() {
@@ -149,7 +149,7 @@ export default {
         },
         checkAll() {
             // 모든 값이 차있고, error 모든 값 false
-            if (this.name && this.email && this.password && this.passwordConfirm &&
+            if (this.userName && this.email && this.password && this.passwordConfirm &&
             !this.error.email && !this.error.password && !this.error.passwordConfirm) {
                 this.isComplete = true
             } else {
@@ -157,15 +157,17 @@ export default {
             }
         },
         signup(signupData) {
-        axios.post(`http://localhost:?/signup`, signupData)
-            .then(res => {
-                console.log(res)
-                alert("회원가입이 완료되었습니다")
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        }
+            console.log(signupData)
+            axios.post(`http://localhost:8080/signup`, signupData)
+                .then(res => {
+                    console.log(res)
+                    alert("회원가입이 완료되었습니다")
+                })
+                .catch(err => {
+                    console.log(err)
+                    alert("이미 가입한 회원입니다")
+                })
+            }
     }
 }
 </script>

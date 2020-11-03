@@ -91,16 +91,16 @@ export default {
             }
         },
         login(email, password) {
-            axios.post(`http://localhost:?/login`, {
+            axios.post(`http://localhost:8080/login`, {
                 email: email,
                 password: password
             })
             .then(res => {
-                sessionStorage.setItem("Token", res.data.object)
+                sessionStorage.setItem("Token", res.data.result)
                 this.$router.push({name: 'Main'})
             })
-            .catch(err => {
-                alert(`${err}를 확인해주세요`)
+            .catch(() => {
+                alert('가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.')
             })
         }
     }

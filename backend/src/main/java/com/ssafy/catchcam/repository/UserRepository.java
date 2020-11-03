@@ -1,5 +1,7 @@
 package com.ssafy.catchcam.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.ssafy.catchcam.model.UserAuthDetails;
@@ -8,7 +10,7 @@ import com.ssafy.catchcam.model.UserResponse;
 public interface UserRepository {
 	
 	//유저 목록 조회
-	public UserResponse getUserList() throws Exception;
+	public List<UserResponse> getUserList() throws Exception;
 
 	// 회원가입 시 닉네임, 이메일 체크 중복 체크
 	public int checkValidEmail(@Param("email") String email) throws Exception;

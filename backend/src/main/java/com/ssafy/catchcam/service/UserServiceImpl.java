@@ -1,5 +1,7 @@
 package com.ssafy.catchcam.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 	
 	@Override
-	public UserResponse getUserList() throws Exception{
+	public List<UserResponse> getUserList() throws Exception{
 		return userRepository.getUserList();
 	}
 	

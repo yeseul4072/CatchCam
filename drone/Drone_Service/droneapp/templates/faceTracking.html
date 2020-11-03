@@ -1,11 +1,51 @@
 <!DOCTYPE html>
 <head>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/jquery.mobile-1.4.5.min.css" />
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
-    <div data-role="header">
-        <a href="/" data-icon="home" data-dom-cache="false">Main</a>
-        <h1>Face Tracking</h1>
+    <div data-role="page">
+        <div data-role="header">
+            <a href="/" data-icon="home" data-dom-cache="false" onclick="sendCommand('stopFaceDetectAndTrack'); return true;">Main</a>
+            <h1>Face Tracking</h1>
+        </div>
+
+        <div class="controller-box"> 
+            <h3>video</h3>
+            <br>            
+            <img src="/video/streaming">      
+            <div data-role="controlgroup" data-type="horizontal">            
+                <a href="#" data-role="button" data-inline="true" onclick="sendCommand('faceDetectAndTrack'); return false;">Start</a>
+                <a href="#" data-role="button" data-inline="true" onclick="sendCommand('stopFaceDetectAndTrack'); return false;">Stop</a>
+            </div>      
+        </div>
     </div>
 </body>
 </html>
+
+<style>
+    .controller-box{
+        text-align: center;
+    }
+</style>
+<script>
+    function sendCommand(command, params={}) {
+        console.log({action: 'sendCommand', command: command, params: params});
+        params['command'] = command;
+        $.post("/api/command/", params).done(function (json) {
+            console.log({action: 'sendCommand', json: json});
+        }, 'json')
+    }
+
+    $(document).on('pageinit', function() {
+        $('#slider-speed').on("slidestop", function (event) {
+            let params = {
+                speed: $("#slider-speed").val(),
+            };
+            sendCommand('speed', params);
+        });
+    });
+
+</script>

@@ -1,16 +1,14 @@
 <template>
   <v-app id="frame">
-    <Main></Main>
+    <router-view></router-view>
   </v-app>
 </template>
 
 <script>
-import Main from '@/views/Home.vue';
 export default {
   name: 'App',
 
   components: {
-    Main
   },
 
   data() {

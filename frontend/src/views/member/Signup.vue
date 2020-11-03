@@ -51,13 +51,14 @@
                             large
                             color="#07B480"
                             :disabled="!isComplete"
+                            @click="signup(signupData)"
                         >
                             회원가입
                         </v-btn>
                     </v-card-actions>
                     <div class="d-flex justify-center mt-2">
                         <p>이미 캐치캠 회원이신가요? </p>
-                        <a href="http://localhost:8080/login" class="ml-3 text-decoration-none">로그인</a>
+                        <router-link to="/login" class="ml-3 text-decoration-none">로그인</router-link>
                     </div>
                 </v-card>
             </v-flex>
@@ -68,14 +69,17 @@
 <script>
 import * as EmailValidator from "email-validator";
 import PV from "password-validator";
+import axios from "axios";
 
 export default {
     data() {
         return {
-            name: null,
-            email: null,
-            password: null,
-            passwordConfirm: null,
+            signupData: {
+                name: null,
+                email: null,
+                password: null,
+                passwordConfirm: null,
+            },
             isComplete: false,
             error: {
                 email: false,
@@ -118,15 +122,15 @@ export default {
     },
     methods: {
         checkEmail() {
-           if (this.email.length >= 0 && !EmailValidator.validate(this.email)) {
+           if (this.signupData.email.length >= 0 && !EmailValidator.validate(this.signupData.email)) {
                this.error.email = "이메일 형식이 아닙니다."
            } else {
                this.error.email = false
            }
         },
         checkPassword () {            
-            if(this.password.length >= 0 &&
-                !this.passwordSchema.validate(this.password)) {
+            if(this.signupData.password.length >= 0 &&
+                !this.passwordSchema.validate(this.signupData.password)) {
                 this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다."
             } else {
                 this.error.password = false
@@ -151,6 +155,16 @@ export default {
             } else {
                 this.isComplete = false
             }
+        },
+        signup(signupData) {
+        axios.post(`http://localhost:?/signup`, signupData)
+            .then(res => {
+                console.log(res)
+                alert("회원가입이 완료되었습니다")
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
     }
 }

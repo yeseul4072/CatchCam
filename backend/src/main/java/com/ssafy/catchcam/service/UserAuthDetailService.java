@@ -23,14 +23,14 @@ public class UserAuthDetailService implements UserDetailsService{
 		try {
 			userDetails =  userRepository.findUserByUserId(Long.parseLong(userId));
 		} catch (Exception e) {
-			throw new UsernameNotFoundException("사용자를 찾을 수 없습니다");
+			throw new UsernameNotFoundException("회원 정보가 유효하지 않습니다.");
 		}
 		return userDetails;
 	}
 	
 	public int checkValidEmail(String email) throws Exception{
 		if(email.equals("")) {
-			throw new Exception("이메일은 비어있을 수 없습니다");
+			throw new Exception("유효하지 않은 이메일입니다.");
 		}
 		return userRepository.checkValidEmail(email);
 	}
@@ -43,7 +43,7 @@ public class UserAuthDetailService implements UserDetailsService{
 	// 이메일로 사용자 검색 부터 시작
 	public UserAuthDetails getUserByEmail(String email) throws Exception{
 		if(email.equals("")) {
-			throw new Exception("이메일은 비어있을 수 없습니다");
+			throw new Exception("유효하지 않은 이메일입니다.");
 		}
 		return userRepository.findUserByEmail(email);
 	}

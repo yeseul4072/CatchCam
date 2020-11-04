@@ -47,7 +47,7 @@ public class AccountController {
 				// 비밀번호 매칭
 				if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 					result.msg = "fail";
-					result.result = "비밀번호가 일치 하지 않습니다";
+					result.result = "비밀번호가 일치하지 않습니다.";
 					response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 				} else {
 					result.msg = "success";
@@ -57,7 +57,7 @@ public class AccountController {
 				}
 			} else {
 				result.msg = "fail";
-				result.result = "이메일 또는 비밀번호가 틀렸습니다";
+				result.result = "가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.";
 				response = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {
@@ -85,12 +85,12 @@ public class AccountController {
 						passwordEncoder.encode(request.getPassword()));
 				userAuthDetailService.signUp(user);
 				result.msg = "success";
-				result.result = "가입이 완료 되었습니다";
+				result.result = "가입이 완료 되었습니다.";
 				response = new ResponseEntity<CommonResponse>(result, HttpStatus.CREATED);
 			} else {
 				// if 중복되는 계정이 있다면 중복
 				result.msg = "duplicate";
-				result.result = "중복 계정입니다";
+				result.result = "이미 가입한 이메일입니다.";
 				response = new ResponseEntity<CommonResponse>(result, HttpStatus.BAD_REQUEST);
 			}
 		} catch (Exception e) {

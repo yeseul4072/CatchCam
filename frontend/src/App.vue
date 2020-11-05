@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .page {
-  background-color: black;
+  background-color: #1F2127;
   color: white;
 }
 </style>

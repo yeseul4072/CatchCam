@@ -1,13 +1,23 @@
 <template>
   <div class="header d-flex justify-space-between">
-      <h2>CatchCam</h2>
+    <div>
+      <v-img
+      class="logo ma-3"
+      src="@/assets/logo2.png"
+      @click="$router.push({name: 'Home'})"
+      ></v-img>
+    </div>
+    <div>
       <v-btn
-  elevation="2"
-  outlined
-  rounded
-  dark
-  @click="$router.push({name: 'Login'})"
->로그인하고 대여하기</v-btn>
+      class="ma-5"
+      color="#ffffff"
+      dark
+      rounded
+      large
+      outlined
+      @click="$router.push({name: 'Login'})"
+      >로그인하고 대여하기</v-btn>
+    </div>
   </div>
 </template>
 
@@ -18,10 +28,13 @@ export default {
 </script>
 
 <style scoped>
+.logo {
+  width: 200px;
+  cursor: pointer;
+}
 .header {
   position: fixed;
   z-index: 8000;
-  color: white;
   width: 100%;
 }
 </style>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.catchcam.repository.RentalRepository">
+	
+	<!-- 모든 대여 목록 검색 -->
+	<select id="getRentalList" resultType="RentalResponse">
+		SELECT rental_id as rentalId, 
+			   item_id as itemId, 
+			   user_id as userId, 
+			   store_id as storeId, 
+			   rent_date as rentDate, 
+			   return_date as returnDate, 
+			   act_return_date as actReturnDate
+		  from rental_list;
+	</select>	
+	
+	<!-- 유저 정보 생성 (회원 가입) -->
+	<insert id="insertRental">
+		INSERT INTO rental_list (item_id, user_id, store_id, rent_date, return_date)
+		VALUES(#{itemId}, #{userId}, #{storeId}, #{rentDate}, #{returnDate});
+	</insert>
+	
+	<!-- 모든 지점 목록 검색 -->
+	<select id="getStoreList" resultType="StoreResponse">
+		SELECT store_id as storeId,
+			   store_name as storeName,
+			   tel_no as telNo,
+			   open_time as openTime,
+			   close_time as closeTime,
+			   latitude,
+			   longitude,
+			   address
+		  from store_list;
+	</select>	
+	
+</mapper>

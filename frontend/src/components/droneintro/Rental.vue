@@ -1,30 +1,6 @@
 <template>
   <v-card class="Rental">
-    <v-card-subtitle class="subtitle">날짜 선택</v-card-subtitle>
-      <div class="d-flex justify-center">
-        <v-card class="btn-text" @click="getCalendar()">
-          <v-card-title class="btn-title">시작일</v-card-title>
-          <v-card-subtitle v-if="dates[0]">{{dates[0]}}</v-card-subtitle>
-          <v-card-subtitle v-else>날짜추가</v-card-subtitle>
-        </v-card>
-        <v-card class="btn-text" @click="getCalendar()">
-          <v-card-title class="btn-title">반납일</v-card-title>
-          <v-card-subtitle v-if="dates[1]">{{dates[1]}}</v-card-subtitle>
-          <v-card-subtitle v-else>날짜추가</v-card-subtitle>
-        </v-card>
-      </div>
-      <!-- calendar -->
-      <v-card-text>
-        <v-row v-if="showCalendar" justify="center">
-            <v-date-picker
-              full-width
-              v-model="dates"
-              range
-            ></v-date-picker>
-        </v-row>
-      </v-card-text>
-
-      <v-card-subtitle class="subtitle">지점 선택</v-card-subtitle>
+     <v-card-subtitle class="subtitle">지점 선택</v-card-subtitle>
       <div>
         <v-container class="py-0">
           <v-row >
@@ -86,6 +62,50 @@
               <v-divider></v-divider>
             </template>
           </v-virtual-scroll>
+
+    <v-card-subtitle class="subtitle mt-5">날짜 선택</v-card-subtitle>
+      <div class="d-flex justify-center">
+        <v-card class="btn-text" @click="getCalendar()">
+          <v-card-title class="btn-title">시작일</v-card-title>
+          <v-card-subtitle v-if="dates[0]">{{dates[0]}}</v-card-subtitle>
+          <v-card-subtitle v-else>날짜추가</v-card-subtitle>
+        </v-card>
+        <v-card class="btn-text" @click="getCalendar()">
+          <v-card-title class="btn-title">반납일</v-card-title>
+          <v-card-subtitle v-if="dates[1]">{{dates[1]}}</v-card-subtitle>
+          <v-card-subtitle v-else>날짜추가</v-card-subtitle>
+        </v-card>
+      </div>
+      <!-- calendar -->
+      <v-card-text>
+        <v-row v-if="showCalendar" justify="center">
+            <v-date-picker
+              full-width
+              v-model="dates"
+              range
+            ></v-date-picker>
+        </v-row>
+      </v-card-text>
+      
+      <div v-if="cost">
+        <v-card-subtitle class="subtitle">가격</v-card-subtitle>
+        <v-card-text class="d-flex flex-column">
+          <div class="d-flex justify-sm-space-between">
+            <div>
+              대여료 
+            </div>
+            <strong>
+              ₩{{ drone.cost }} × {{ term }}일
+            </strong>
+          </div>
+          <hr class="my-3">
+          <div class="emp-text align-self-end">
+            ₩{{ cost }}
+          </div>
+        </v-card-text>
+      </div>
+
+     
           <v-btn
           class="ma-3 my-5"
           color="#018F26"
@@ -101,12 +121,13 @@
 
 <script>
 
-
 export default {
   name: "Rental",
   data() {
     return {
       dates: [],
+      term: null,
+      cost: null,
       showCalendar: false,
       cities: ['서울', '부산'],
       city: null,
@@ -114,6 +135,25 @@ export default {
       district: null,
       stores: [{'store_id': 1, 'store_name': '명동점', 'tel_no': '010-4940-4072', 'open_time': 9, 'close_time': 18, 'latitude': 20.0, 'longitude': 30.0, 'address': '서울특별시 중구 마른내로 47 (초동)'}, {'store_id': 1, 'store_name': '신당점', 'tel_no': '010-4940-4072', 'open_time': 9, 'close_time': 18, 'latitude': 20.0, 'longitude': 30.0, 'address': '서울특별시 중구 다산로 156 (신당동)'}],
     };
+  },
+  props: {
+    drone: {
+      type: Object,
+    }
+  },
+  watch: {
+    'dates': function() {
+      if (this.dates[1]) {
+        this.getCalendar()
+        var arr1 = this.dates[0].split('-')
+        var d1 = new Date(arr1[0], arr1[1], arr1[2])
+        var arr2 = this.dates[1].split('-')
+        var d2 = new Date(arr2[0], arr2[1], arr2[2])
+        var currDay = 24 * 60 * 60 * 1000
+        this.term = parseInt((d2 - d1)/currDay)
+        this.cost = this.term * this.drone.cost 
+      }
+    }
   },
   computed: {
     dateRangeText () {
@@ -157,5 +197,10 @@ export default {
 }
 .icon-wrap {
   width: 80%;
+}
+.emp-text {
+  color: #018F26;
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>

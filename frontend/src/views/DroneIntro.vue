@@ -26,7 +26,7 @@
         
       </v-col>
       <v-col class="pl-10" cols="4">
-        <Rental/>
+        <Rental :drone="drone"/>
       </v-col>
     </v-row>
   </v-container>

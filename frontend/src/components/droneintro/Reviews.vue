@@ -7,13 +7,14 @@
         counter
         dark
         flat
+        v-model="reviewData.content"
       ></v-textarea>
       <div class="d-flex justify-space-between align-center">
         <div class="d-flex align-center">
           <div class="reg_text">별점: </div>
           <v-rating
             class="align-self-end"
-            v-model="rating"
+            v-model="reviewData.star_rate"
             color="yellow darken-3"
             background-color="grey darken-1"
             empty-icon="$ratingFull"
@@ -49,11 +50,11 @@
     </div>
     <ReviewItem
     class="mt-3"
-    v-for="review in reviews"
+    v-for="review in reviews[0].reviews"
     :key="review.id"
     :review="review"
+    @updateData="updateData"
     />
-
   </div>
 </template>
 
@@ -72,29 +73,52 @@ export default {
         {
           avg_rate: 2,
           count: 2,
-          id: 0,
-          content: '별로에요 쓰지마세요',
-          create_date: '2020-11-08',
-          update_date: '2020-11-08',
-          user: '예슬',
-          star_rate: 1,
-        },
-        {
-          avg_rate: 2,
-          count: 2,
-          id: 1,
-          content: '좋음',
-          create_date: '2020-11-08',
-          update_date: '2020-11-08',
-          user: '예슬이',
-          star_rate: 3,
-        },
-      ]
+          review_yn: true,
+          reviews:
+          [
+            {
+              id: 0,
+              item_id: 0,
+              user_name: '허예슬',
+              content: '내용',
+              create_date: '2020-11-9',
+              modify_date: '2020-11-9',
+              star_rate: 1,
+              writer_yn: true
+            },
+            { 
+              id: 1,
+              item_id: 0,
+              user_name: '몽똥이',
+              content: '내용2',
+              create_date: '2020-11-9',
+              modify_date: '2020-11-9',
+              star_rate: 3,
+              writer_yn: false
+            }
+          ]
+        }
+      ],
+      reviewData: {
+        id: null,
+        item_id: null,
+        user_id: null,
+        content: null,
+        star_rate: null,
+      }
     }
   },
   methods: {
     reviewForm() {
       this.showReviewForm = !this.showReviewForm
+    },
+    updateData(updateData) {
+      this.reviewForm()
+      this.reviewData.id = updateData.id,
+      this.reviewData.item_id = updateData.item_id,
+      this.reviewData.user_id = updateData.user_id,
+      this.reviewData.content = updateData.content,
+      this.reviewData.star_rate = updateData.star_rate
     }
   }
 

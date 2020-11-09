@@ -2,7 +2,7 @@
   <v-card class="Rental">
      <v-card-subtitle class="subtitle">지점 선택</v-card-subtitle>
       <div>
-        <v-container class="py-0">
+        <!-- <v-container class="py-0">
           <v-row >
             <v-col cols="6" class="pr-0">
               <v-combobox
@@ -23,7 +23,7 @@
               ></v-combobox>
             </v-col>
           </v-row>
-        </v-container>
+        </v-container> -->
 
         <v-card
           outlined
@@ -35,7 +35,7 @@
             item-height="64"
           >
             <template v-slot:default="{ item }">
-              <v-list-item :key="item.store_id">
+              <v-list-item :key="item.store_id" class="store_item" @click="getStore(item.store_id)">
                 <v-list-item-content>
                   <v-list-item-title>
                     <strong>{{ item.store_name }}</strong> {{ item.tel_no }}
@@ -129,11 +129,18 @@ export default {
       term: null,
       cost: null,
       showCalendar: false,
-      cities: ['서울', '부산'],
-      city: null,
-      districts: ['동대문구', '관악구'],
-      district: null,
+      // cities: ['서울', '부산'],
+      // city: null,
+      // districts: ['동대문구', '관악구'],
+      // district: null,
       stores: [{'store_id': 1, 'store_name': '명동점', 'tel_no': '010-4940-4072', 'open_time': 9, 'close_time': 18, 'latitude': 20.0, 'longitude': 30.0, 'address': '서울특별시 중구 마른내로 47 (초동)'}, {'store_id': 1, 'store_name': '신당점', 'tel_no': '010-4940-4072', 'open_time': 9, 'close_time': 18, 'latitude': 20.0, 'longitude': 30.0, 'address': '서울특별시 중구 다산로 156 (신당동)'}],
+      rentalData: {
+        item_id: this.drone.id,
+        user_id: 0,
+        store_id: null,
+        rent_date: null,
+        return_date: null,
+      }
     };
   },
   props: {
@@ -146,11 +153,11 @@ export default {
       if (this.dates[1]) {
         this.getCalendar()
         var arr1 = this.dates[0].split('-')
-        var d1 = new Date(arr1[0], arr1[1], arr1[2])
+        this.rentalData.rent_date = new Date(arr1[0], arr1[1], arr1[2])
         var arr2 = this.dates[1].split('-')
-        var d2 = new Date(arr2[0], arr2[1], arr2[2])
+        this.rentalData.return_date = new Date(arr2[0], arr2[1], arr2[2])
         var currDay = 24 * 60 * 60 * 1000
-        this.term = parseInt((d2 - d1)/currDay)
+        this.term = parseInt((this.rentalData.return_date - this.rentalData.rent_date)/currDay)
         this.cost = this.term * this.drone.cost 
       }
     }
@@ -169,6 +176,9 @@ export default {
   methods: {
     getCalendar() {
       this.showCalendar = !this.showCalendar
+    },
+    getStore(store_id) {
+      this.rentalData.store_id = store_id
     }
   }
 
@@ -202,5 +212,8 @@ export default {
   color: #018F26;
   font-size: 20px;
   font-weight: bold;
+}
+.store_item {
+  cursor: pointer;
 }
 </style>

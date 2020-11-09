@@ -12,6 +12,7 @@
             color="yellow darken-3"
             background-color="grey darken-1"
             empty-icon="$ratingFull"
+            dense
             size="15"
             class="ml-5"
           ></v-rating>

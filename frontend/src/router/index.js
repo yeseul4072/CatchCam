@@ -4,6 +4,7 @@ import Home from '@/views/Home'
 import Login from '@/views/member/Login'
 import Signup from '@/views/member/Signup'
 import DroneIntro from '@/views/DroneIntro'
+import RentalList from '@/views/RentalList'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,12 @@ const routes = [
     path: '/drone/1',
     name: 'DroneIntro',
     component: DroneIntro
+  },
+  {
+    path: '/rental/:uid',
+    name: 'RentalList',
+    component: RentalList,
+    props: true
   }
 ]
 

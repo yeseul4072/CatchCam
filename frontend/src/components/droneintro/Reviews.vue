@@ -20,6 +20,7 @@
             empty-icon="$ratingFull"
             half-increments
             hover
+            dense
             size="18"
           ></v-rating>
         </div>

@@ -111,7 +111,7 @@
           color="#018F26"
           dark
           large
-          @click="$router.push({name: 'Login'})"
+          @click="$router.push({name: 'RentalList'})"
           >대여 신청하기</v-btn>
         </v-card>
       </div>

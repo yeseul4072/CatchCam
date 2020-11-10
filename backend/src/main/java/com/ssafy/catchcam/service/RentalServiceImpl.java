@@ -29,6 +29,8 @@ public class RentalServiceImpl implements RentalService {
 	
 	@Override
 	public void insertRental(RentalRequest rental) throws Exception{
+		UserAuthDetails user = (UserAuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		rental.setUserId(user.getUserId());
 		rentalRepository.insertRental(rental);
 	}
 

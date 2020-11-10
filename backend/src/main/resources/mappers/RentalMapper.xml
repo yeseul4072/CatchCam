@@ -14,7 +14,8 @@
 			   return_date as returnDate, 
 			   act_return_date as actReturnDate
 		  from rental_list
-		 where user_id = #{userId};
+		 where user_id = #{userId}
+	  order by rental_id desc;
 	</select>	
 	
 	<!-- 대여 정보 생성 (대여하기) -->
@@ -51,7 +52,7 @@
 	<!-- 상품 리뷰 조회(평점, 리뷰개수 등) -->
 	<select id="getItemReview" resultType="ReviewListResponse">
 		select rt.item_id as itemId,
-			   ifnull(avg(rv.star_rate), 0) as avgRate,
+			   ifnull(avg(format(truncate(rv.star_rate, 1), 1)), 0) as avgRate,
 			   count(1) as reviewCount,
 			   if(exists (select 1 
 			   				from review_list trv 
@@ -85,7 +86,8 @@
 		  	   rental_list rt
 		  	   on
 		  	   rv.rental_id = rt.rental_id
-		 where rt.item_id = #{itemId};
+		 where rt.item_id = #{itemId}
+	  order by rv.review_id desc;
 	</select>	
 	
 	<!-- 대여한 사람과 리뷰를 작성할 사람이 같은 지 확인 -->

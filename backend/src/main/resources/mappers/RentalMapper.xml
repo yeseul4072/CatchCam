@@ -76,8 +76,8 @@
 			   rv.user_id as userId,
 			   (select user_name from user_list where user_id = rv.user_id) as userName,
 			   rv.content,
-			   date_format(rv.create_date, '%Y-%m-%d') as createDate,
-			   date_format(rv.modify_date, '%Y-%m-%d') as modifyDate,
+			   date_format(rv.create_date, '%Y-%m-%d') as strCreateDate,
+			   date_format(rv.modify_date, '%Y-%m-%d') as strModifyDate,
 			   rv.star_rate as starRate,
 			   if(rv.user_id = #{userId}, 'Y', 'N') as writerYn
 		  from review_list rv

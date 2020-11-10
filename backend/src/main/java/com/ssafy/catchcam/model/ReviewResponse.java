@@ -9,6 +9,8 @@ public class ReviewResponse {
 	private String content;
 	private Date createDate;
 	private Date modifyDate;
+	private String strCreateDate;
+	private String strModifyDate;
 	private Double starRate;
 	private String writerYn;
 
@@ -78,6 +80,22 @@ public class ReviewResponse {
 
 	public void setWriterYn(String writerYn) {
 		this.writerYn = writerYn;
+	}
+
+	public String getStrCreateDate() {
+		return strCreateDate;
+	}
+
+	public void setStrCreateDate(String strCreateDate) {
+		this.strCreateDate = strCreateDate;
+	}
+
+	public String getStrModifyDate() {
+		return strModifyDate;
+	}
+
+	public void setStrModifyDate(String strModifyDate) {
+		this.strModifyDate = strModifyDate;
 	}
 
 	

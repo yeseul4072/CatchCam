@@ -38,9 +38,7 @@
 	
 	<!-- 단일 상품 정보 검색 -->
 	<select id="getItemInfo" resultType="ItemResponse">
-		select store_id as storeId,
-			   store_name as storeName,
-			   tel_no as telNo,
+		select tel_no as telNo,
 			   open_time as openTime,
 			   close_time as closeTime,
 			   latitude,

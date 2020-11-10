@@ -1,7 +1,7 @@
--- drop table item_list;
--- drop table rental_list;
--- drop table review_list;
--- drop table user_list;
+ drop table item_list;
+ drop table rental_list;
+ drop table review_list;
+ drop table user_list;
 
 CREATE TABLE IF NOT EXISTS `user_list` (
 	`user_id`	bigint	NOT NULL AUTO_INCREMENT COMMENT '사용자 테이블 pk',
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `rental_list` (
 CREATE TABLE IF NOT EXISTS `review_list` (
 	`review_id`	bigint	NOT NULL AUTO_INCREMENT COMMENT '후기 테이블 pk',
 	`rental_id`	bigint	NOT NULL COMMENT '대여 정보 ley',
+    `user_id`	bigint	NOT NULL COMMENT '작성자 id',
 	`content`	text	NULL COMMENT '후기 내용',
 	`create_date`	datetime	NULL COMMENT '후기 작성일자',
 	`modify_date`	datetime	NULL COMMENT '후기 수정일자',

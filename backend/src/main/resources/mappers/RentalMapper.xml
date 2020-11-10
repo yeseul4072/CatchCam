@@ -39,12 +39,11 @@
 	
 	<!-- 단일 상품 정보 검색 -->
 	<select id="getItemInfo" resultType="ItemResponse">
-		select tel_no as telNo,
-			   open_time as openTime,
-			   close_time as closeTime,
-			   latitude,
-			   longitude,
-			   address
+		select item_id as itemId,
+			   item_name as itemName,
+			   profile_img as profileImg,
+			   description,
+			   cost
 		  from item_list
 		 where item_id = #{itemId};
 	</select>

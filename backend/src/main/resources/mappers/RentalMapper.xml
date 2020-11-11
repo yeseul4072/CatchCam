@@ -6,16 +6,40 @@
 	
 	<!-- 모든 대여 목록 검색 -->
 	<select id="getRentalList" resultType="RentalResponse">
-		select rental_id as rentalId, 
-			   item_id as itemId, 
-			   user_id as userId, 
-			   store_id as storeId, 
-			   rent_date as rentDate, 
-			   return_date as returnDate, 
-			   act_return_date as actReturnDate
-		  from rental_list
-		 where user_id = #{userId}
-	  order by rental_id desc;
+		select rt.rental_id as rentalId, 
+			   rt.item_id as itemId, 
+			   rt.user_id as userId, 
+			   rt.store_id as storeId, 
+			   rt.rent_date as rentDate, 
+			   rt.return_date as returnDate, 
+			   rt.act_return_date as actReturnDate,
+			   date_format(rt.rent_date, '%Y-%m-%d') as strRentDate, 
+			   date_format(rt.return_date, '%Y-%m-%d') as strReturnDate, 
+			   date_format(rt.act_return_date, '%Y-%m-%d') as strActReturnDate,
+               case
+               when rt.rent_date > now() then '예약중'
+				when rt.act_return_date is not null then '반납완료'
+                else '대여중'
+			   end as status,
+               it.item_name as itemName,
+               it.profile_img as profileImg,
+               it.cost,
+               st.store_name as storeName,
+               st.tel_no as telNo,
+               st.open_time as openTime,
+               st.close_time as closeTime,
+               st.address
+		  from rental_list rt
+			   inner join
+               item_list it
+               on
+               rt.item_id = it.item_id
+               left outer join
+               store_list st
+               on
+               rt.store_id = st.store_id
+		 where rt.user_id = #{userId}
+	  order by rt.rental_id desc;
 	</select>	
 	
 	<!-- 대여 정보 생성 (대여하기) -->

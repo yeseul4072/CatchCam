@@ -17,6 +17,7 @@
 
 <script>
 import RentalItem from '@/components/rentallist/RentalItem'
+import http from '@/api/api.js'
 
 
 export default {
@@ -26,26 +27,24 @@ export default {
   },
   data() {
     return {
-      rental_list: [
-        {
-          id: 0,
-          rent_date: '2020-11-09',
-          return_date: '2020-11-10',
-          cost: 50000,
-          item: {
-            item_name: '왱왱v1',
-            profile_img: require('@/assets/drone4.png')
-          },
-          store: {
-            store_name: '왱왱스토어',
-            tel_no: '010-4940-4072',
-            open_time: 9,
-            close_time: 18,  
-            address: '주소'
-          }
-        },
-      ]
+      rental_list: []
     }
+  },
+  created: function() {
+    http.axios.get('/rentals') 
+    .then (res => {
+      // status가 예약중, 대여중인 값만 받기
+      var arr = res.data.result
+      for (var i = 0; i < arr.length; i ++) {
+        if (arr[i].status === '예약중' || arr[i].status === '대여중') {
+          this.rental_list.push(arr[i])
+        }
+      }
+      // console.log(this.rental_list)
+    })
+    .catch (err => {
+      console.log(err)
+    })
   }
 }
 </script>

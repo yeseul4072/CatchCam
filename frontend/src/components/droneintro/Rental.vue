@@ -14,7 +14,7 @@
           > 
             
             <template v-slot:default="{ item }">
-              <v-list-item :key="item.storeId" class="store_item" @click="getStore(item.storeId)">
+              <v-list-item :key="item.storeId" class="store_item" @click="getStore(item.storeId)" v-bind:class="{clicked: applyData.storeId === item.storeId }">
                 <v-list-item-content>
                   <v-list-item-title>
                     <strong>{{ item.storeName }}</strong> {{ item.telNo }}
@@ -90,7 +90,7 @@
           color="#018F26"
           dark
           large
-          @click="$router.push({name: 'RentalList'})"
+          @click="apply()"
           >대여 신청하기</v-btn>
         </v-card>
       </div>
@@ -109,17 +109,12 @@ export default {
       term: null,
       cost: null,
       showCalendar: false,
-      // cities: ['서울', '부산'],
-      // city: null,
-      // districts: ['동대문구', '관악구'],
-      // district: null,
       stores: null,
-      rentalData: {
-        item_id: this.drone.id,
-        user_id: 0,
-        store_id: null,
-        rent_date: null,
-        return_date: null,
+      applyData: {
+        itemId: this.drone.itemId,
+        storeId: null,
+        rentDate: null,
+        returnDate: null,
       }
     };
   },
@@ -133,11 +128,11 @@ export default {
       if (this.dates[1]) {
         this.getCalendar()
         var arr1 = this.dates[0].split('-')
-        this.rentalData.rent_date = new Date(arr1[0], arr1[1], arr1[2])
+        this.applyData.rentDate = new Date(arr1[0], arr1[1], arr1[2])
         var arr2 = this.dates[1].split('-')
-        this.rentalData.return_date = new Date(arr2[0], arr2[1], arr2[2])
+        this.applyData.returnDate = new Date(arr2[0], arr2[1], arr2[2])
         var currDay = 24 * 60 * 60 * 1000
-        this.term = parseInt((this.rentalData.return_date - this.rentalData.rent_date)/currDay)
+        this.term = parseInt((this.applyData.returnDate - this.applyData.rentDate)/currDay)
         this.cost = this.term * this.drone.cost 
       }
     }
@@ -164,7 +159,16 @@ export default {
       this.showCalendar = !this.showCalendar
     },
     getStore(store_id) {
-      this.rentalData.store_id = store_id
+      this.applyData.storeId = store_id
+    },
+    apply() {
+      http.axios.post('/rental', this.applyData) 
+      .then (res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 
@@ -201,5 +205,8 @@ export default {
 }
 .store_item {
   cursor: pointer;
+}
+.clicked {
+  background-color: rgb(228, 228, 228);
 }
 </style>

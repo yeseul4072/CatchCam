@@ -20,8 +20,11 @@
 
         <div class="subtitle">사용 방법</div>
         <div class="subtitle">이용 안내</div>
+        <v-img
+          src="@/assets/guide.png"
+        ></v-img>
         <div class="subtitle">후기</div>
-        <Reviews :droneId="drone.itemId"/>
+        <Reviews :drone="drone"/>
         <div class="subtitle">질문</div>
         
       </v-col>
@@ -48,17 +51,26 @@ export default {
   data() {
     return {
       drone: null,
+      rentalTop: 0,
     };
   },
   created () {
     http.axios.get('/item/1') 
     .then (res => {
-      console.log(res.data.result)
       this.drone = res.data.result
     })
     .catch (err => {
       console.log(err)
     })
+  },
+  mounted() {
+    window.addEventListener('scroll', this.detectWindowScrollY)
+  },
+  methods: {
+    detectWindowScrollY() {
+      // if(window.scrollY > this.Rental.getBoundingClientRect().top + window.pageYOffset) {
+      // }
+    }
   }
 };
 </script>

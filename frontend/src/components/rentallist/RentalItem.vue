@@ -2,6 +2,7 @@
   <v-card
     color="#23252d"
     class="ma-3 my-card"
+    height="425"
     max-width="374"
     @click="$router.push({name:'DroneIntro'})"
   >
@@ -57,30 +58,144 @@
           outlined
           color="red"
           @click="reserve"
+          small
         >
           예약 취소
         </v-btn>
       </div>
       <div v-if="rentalItem.status=='대여중' || rentalItem.status=='반납완료'" class="ma-3">
-        <v-btn
-          color="white"
-          @click="reserve"
-          dark
-          outlined
+        <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="500"
         >
-          후기 작성
-        </v-btn>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              v-if="rentalItem.reviewYn==='N'"
+              color="rgb(148, 148, 148)"
+              outlined
+              v-bind="attrs"
+              v-on="on"
+              small
+            >
+              후기 작성
+            </v-btn>
+          </template
+          >
+          <v-card>
+            <v-toolbar color="#018F26" dark flat class="d-flex justify-center">
+              <v-toolbar-title>
+                후기 작성
+              </v-toolbar-title>
+            </v-toolbar>
+            <v-card-text class="d-flex align-center py-0">
+              <div class="img-wrap">
+                <v-img
+                  src="@/assets/drone4.png"
+                ></v-img>
+              </div>
+              <div class="d-flex flex-column align-start">
+                <div class="gray-text">
+                  {{ rentalItem.storeName }}
+                </div>
+                <v-card-subtitle class="pa-0">
+                  <strong>{{ rentalItem.itemName }}</strong>
+                </v-card-subtitle>
+                <div class="gray-text">
+                  {{ rentalItem.strRentDate }} ~ {{ rentalItem.strReturnDate }}
+                </div>
+              </div>
+            </v-card-text>
+            <v-divider></v-divider>
+
+            <v-card-text class="py-2 d-flex flex-column align-center">
+              <div class="mr-1">
+                평점
+              </div>
+              <v-rating
+                color="yellow darken-3"
+                background-color="grey darken-1"
+                empty-icon="$ratingFull"
+                half-increments
+                hover
+                dense
+                size="30"
+                v-model="reviewData.starRate"
+              ></v-rating>
+              <div v-if="reviewData.starRate" class="gray-text">
+                {{ reviewData.starRate }}점 
+              </div>
+            </v-card-text>
+            <v-card-text class="py-0">
+              <v-textarea
+                color="rgb(148, 148, 148)"
+                counter="5000"
+                flat
+                filled
+                placeholder="최소 10자 이상 입력해주세요."
+                v-model="reviewData.content"
+              ></v-textarea>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="rgb(148, 148, 148)"
+                outlined
+                @click="dialog = false"
+                width="100"
+                rounded
+              >
+                취소
+              </v-btn>
+              <v-btn
+                dark
+                color="green darken-1"
+                @click="dialog = false; createReview()"
+                class="ma-2"
+                width="100"
+                rounded
+              >
+                등록
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+
+        </v-dialog>
       </div>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import http from '@/api/api.js'
+
+
 export default {
   name: "RentalItem",
   props: {
     rentalItem: {
       type: Object
+    }
+  },
+  data () {
+    return {
+      dialog: false,
+      reviewData: {
+        content: null,
+        rentalId: this.rentalItem.rentalId,
+        starRate: null,
+      }
+    }
+  },
+  methods: {
+    createReview() {
+      http.axios.post('/review', this.reviewData)
+      .then( res => {
+        console.log(res)
+      })
+      .catch( err => {
+        console.log(err)
+      })
     }
   }
 }
@@ -89,6 +204,7 @@ export default {
 <style scoped>
 .title {
   font-size: 2rem;
+  font-weight: bold;
 }
 .gray-text {
   font-size: 0.8rem;
@@ -99,5 +215,8 @@ export default {
 }
 .my-card {
   cursor: pointer;
+}
+.img-wrap {
+  width: 40%;
 }
 </style>

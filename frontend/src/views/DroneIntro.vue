@@ -2,9 +2,9 @@
   <v-container class="droneintro">
     <v-row>
       <v-col cols="8">
-        <div class="text-h4 title">{{ drone.name }}</div>
+        <div class="text-h4 title">{{ drone.itemName }}</div>
         <div class="text-h5">{{ drone.cost }}원 / 일</div>
-        <v-img :src="drone.image"></v-img>
+        <v-img src="@/assets/drone4.png"></v-img>
           <v-tabs 
             fixed-tabs
             background-color="transparent"
@@ -20,8 +20,11 @@
 
         <div class="subtitle">사용 방법</div>
         <div class="subtitle">이용 안내</div>
+        <v-img
+          src="@/assets/guide.png"
+        ></v-img>
         <div class="subtitle">후기</div>
-        <Reviews :droneId="drone_id"/>
+        <Reviews :drone="drone"/>
         <div class="subtitle">질문</div>
         
       </v-col>
@@ -36,6 +39,7 @@
 // import axios from 'axios'
 import Rental from '@/components/droneintro/Rental'
 import Reviews from '@/components/droneintro/Reviews'
+import http from '@/api/api.js'
 
 
 export default {
@@ -46,25 +50,28 @@ export default {
   },
   data() {
     return {
-      drone: {
-        id: 0,
-        name: "캐치캠 v1.0",
-        description:
-          "드론은 본래 군사용으로 개발되어 점차 그 기술이 발전함에 따라 무궁무진한 가능성을 품고 있는 4차 산업혁명의 신산업 분야라고 말할 수 있습니다. 최초의 형태는 열기구로 1849년에 오스트리아의 전투에서 실제로 사용되었고 뒤이어 제 1,2차 세계대전에서 중요한 전투무기로 사용되기도 하였습니다.",
-        image: require("@/assets/drone4.png"),
-        cost: 50000,
-      },
+      drone: null,
+      rentalTop: 0,
     };
   },
-  // created () {
-  //   axios.get('') 
-  //   .then (res => {
-
-  //   })
-  //   .catch (res => {
-
-  //   })
-  // }
+  created () {
+    http.axios.get('/item/1') 
+    .then (res => {
+      this.drone = res.data.result
+    })
+    .catch (err => {
+      console.log(err)
+    })
+  },
+  mounted() {
+    window.addEventListener('scroll', this.detectWindowScrollY)
+  },
+  methods: {
+    detectWindowScrollY() {
+      // if(window.scrollY > this.Rental.getBoundingClientRect().top + window.pageYOffset) {
+      // }
+    }
+  }
 };
 </script>
 

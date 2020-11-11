@@ -22,6 +22,7 @@ public class RentalResponse {
 	private int openTime;
 	private int closeTime;
 	private String address;
+	private String reviewYn;
 
 	
 	public RentalResponse() {
@@ -178,6 +179,14 @@ public class RentalResponse {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getReviewYn() {
+		return reviewYn;
+	}
+
+	public void setReviewYn(String reviewYn) {
+		this.reviewYn = reviewYn;
 	}
 	
 	

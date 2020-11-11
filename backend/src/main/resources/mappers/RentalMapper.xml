@@ -28,7 +28,8 @@
                st.tel_no as telNo,
                st.open_time as openTime,
                st.close_time as closeTime,
-               st.address
+               st.address,
+               if(rv.rental_id is not null, 'Y', 'N') as reviewYn
 		  from rental_list rt
 			   inner join
                item_list it
@@ -38,6 +39,10 @@
                store_list st
                on
                rt.store_id = st.store_id
+               left outer join
+               review_list rv
+               on
+               rt.rental_id = rv.rental_id
 		 where rt.user_id = #{userId}
 	  order by rt.rental_id desc;
 	</select>	
@@ -75,7 +80,7 @@
 	<!-- 상품 리뷰 조회(평점, 리뷰개수 등) -->
 	<select id="getItemReview" resultType="ReviewListResponse">
 		select rt.item_id as itemId,
-			   ifnull(avg(format(truncate(rv.star_rate, 1), 1)), 0) as avgRate,
+			   ifnull(format(avg(truncate(rv.star_rate, 1)), 1), 0) as avgRate,
 			   count(1) as reviewCount,
 			   if(exists (select 1 
 			   				from review_list trv 

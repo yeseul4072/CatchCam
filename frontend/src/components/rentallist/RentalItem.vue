@@ -1,7 +1,7 @@
 <template>
   <v-card
     color="#23252d"
-    class="my-12"
+    class="ma-3"
     max-width="374"
   >
     <template slot="progress">

@@ -18,6 +18,7 @@
 <script>
 import Ongoing from '@/components/rentallist/Ongoing'
 import Previous from '@/components/rentallist/Previous'
+import http from '@/api/api.js'
 
 
 export default {
@@ -38,6 +39,15 @@ export default {
     getPrevious() {
       this.showOngoing = false
     }
+  },
+  created() {
+    http.axios.get('/rentals')
+    .then( res => {
+      console.log(res)
+    })
+    .catch( res => {
+      console.log(res)
+    })
   }
 }
 </script>

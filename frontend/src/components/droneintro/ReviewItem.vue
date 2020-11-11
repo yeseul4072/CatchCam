@@ -4,10 +4,10 @@
     <div class="my-3">
       <div class="d-flex justify-space-between">
         <div class="d-flex align-center">
-          <div>{{ review.user_name }}</div>
-          <div class="date-text">{{ review.create_date }}</div>
+          <div>{{ review.userName }}</div>
+          <div class="date-text">{{ review.strCreateDate }}</div>
           <v-rating
-            :value="review.star_rate"
+            :value="review.starRate"
             readonly
             color="yellow darken-3"
             background-color="grey darken-1"
@@ -19,7 +19,7 @@
         </div>
 
         <!-- 수정/삭제 버튼 -->
-        <div v-if="review.writer_yn" class="text-center">
+        <div v-if="review.writerYn" class="text-center">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="#8d8d8d" icon dark v-bind="attrs" v-on="on">

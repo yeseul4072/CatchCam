@@ -35,6 +35,7 @@
           <v-btn
             color="#018F26"
             dark
+            @click="createReview()"
           >저장하기</v-btn>
         </div>
         </div>
@@ -42,8 +43,16 @@
     </v-card>
 
     <div class="d-flex justify-space-between align-center">
-      <div class="score_text">
-        {{ reviews[0].avg_rate }} / 5 ({{ reviews[0].count }}개 후기)
+      <div class="d-flex">
+        <div class="score_text">
+          이용후기 <span class="colored_text">{{ count }}개</span>
+        </div>
+        <div class="mx-2">
+          ·
+        </div>
+        <div class="score_text">
+          평균평점 <span class="colored_text">{{ avg_rate }}</span>
+        </div>
       </div>
       <div>
         <v-btn color="#018F26" dark @click="reviewForm()" v-if="!showReviewForm">후기 쓰기</v-btn>
@@ -51,7 +60,7 @@
     </div>
     <ReviewItem
     class="mt-3"
-    v-for="review in reviews[0].reviews"
+    v-for="review in reviews"
     :key="review.id"
     :review="review"
     @updateData="updateData"
@@ -61,6 +70,7 @@
 
 <script>
 import ReviewItem from '@/components/droneintro/ReviewItem'
+import http from '@/api/api.js'
 
 export default {
   name: "Reviews",
@@ -72,42 +82,28 @@ export default {
       showReviewForm: false,
       reviews: [
         {
-          avg_rate: 2,
-          count: 2,
-          review_yn: true,
-          reviews:
-          [
-            {
-              id: 0,
-              item_id: 0,
-              user_name: '허예슬',
-              content: '내용',
-              create_date: '2020-11-9',
-              modify_date: '2020-11-9',
-              star_rate: 1,
-              writer_yn: true
-            },
-            { 
-              id: 1,
-              item_id: 0,
-              user_name: '몽똥이',
-              content: '내용2',
-              create_date: '2020-11-9',
-              modify_date: '2020-11-9',
-              star_rate: 3,
-              writer_yn: false
-            }
-          ]
+          avg_rate: null,
+          count: null,
+          review_yn: false,
+          reviews: null
         }
       ],
       reviewData: {
-        id: null,
-        item_id: null,
-        user_id: null,
         content: null,
+        item_id: null,
         star_rate: null,
       }
     }
+  },
+  created: function() {
+    http.axios.get('/reviews/1') 
+    .then( res => {
+      this.avg_rate = res.data.result.avgRate,
+      this.count = res.data.result.reviewCount,
+      this.review_yn = res.data.result.reviewYn
+      this.reviews = res.data.result.reviews
+    })
+
   },
   methods: {
     reviewForm() {
@@ -120,6 +116,12 @@ export default {
       this.reviewData.user_id = updateData.user_id,
       this.reviewData.content = updateData.content,
       this.reviewData.star_rate = updateData.star_rate
+    },
+    createReview() {
+      http.axios.post('/review', this.reviewData)
+      .then( res => {
+        console.log(res)
+      })
     }
   }
 
@@ -128,10 +130,13 @@ export default {
 
 <style scoped>
 .score_text {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 18px;
 }
 .reg_text {
   color: white;
+}
+.colored_text {
+  color: #018F26;
+  font-weight: bold;
 }
 </style>

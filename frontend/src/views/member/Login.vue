@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from "@/api/api.js"
 
 export default {
     data() {
@@ -85,13 +85,14 @@ export default {
             }
         },
         login(email, password) {
-            axios.post(`http://localhost:8080/login`, {
+            http.axios.post('/login', {
                 email: email,
                 password: password
             })
             .then(res => {
                 sessionStorage.setItem("Token", res.data.result)
-                this.$router.push({name: 'Main'})
+                this.$router.push({name: 'DroneIntro'})
+                this.$router.go()
             })
             .catch(() => {
                 alert('가입하지 않은 이메일이거나, 잘못된 비밀번호입니다.')

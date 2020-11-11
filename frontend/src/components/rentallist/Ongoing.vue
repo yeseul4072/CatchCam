@@ -1,10 +1,17 @@
 <template>
   <v-container fluid>
-    <RentalItem
-    v-for="rentalItem in rental_list"
-    :key="rentalItem.id"
-    :rentalItem="rentalItem"
-    />
+    <v-row>
+      <v-col
+        class="pa-0"
+        cols="4"
+        v-for="rentalItem in rental_list"
+        :key="rentalItem.id"
+      >
+        <RentalItem
+        :rentalItem="rentalItem"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

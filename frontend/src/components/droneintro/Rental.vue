@@ -2,43 +2,22 @@
   <v-card class="Rental">
      <v-card-subtitle class="subtitle">지점 선택</v-card-subtitle>
       <div>
-        <!-- <v-container class="py-0">
-          <v-row >
-            <v-col cols="6" class="pr-0">
-              <v-combobox
-                v-model="city"
-                :items="cities"
-                label="시/도"
-                outlined
-                dense
-              ></v-combobox>
-            </v-col>
-            <v-col cols="6" class="pl-0">
-              <v-combobox
-                v-model="district"
-                :items="districts"
-                label="군/구"
-                outlined
-                dense
-              ></v-combobox>
-            </v-col>
-          </v-row>
-        </v-container> -->
-
         <v-card
           outlined
           max-width="400"
           class="mx-auto d-flex flex-column justify-center"
-        > 
+        >         
           <v-virtual-scroll
             :items="stores"
             item-height="64"
-          >
+            v-if="stores"
+          > 
+            
             <template v-slot:default="{ item }">
-              <v-list-item :key="item.store_id" class="store_item" @click="getStore(item.store_id)">
+              <v-list-item :key="item.storeId" class="store_item" @click="getStore(item.storeId)">
                 <v-list-item-content>
                   <v-list-item-title>
-                    <strong>{{ item.store_name }}</strong> {{ item.tel_no }}
+                    <strong>{{ item.storeName }}</strong> {{ item.telNo }}
                   </v-list-item-title>
                   <v-list-item-title class="sm-content">
                     {{ item.address }}
@@ -120,6 +99,7 @@
 </template>
 
 <script>
+import http from '@/api/api.js'
 
 export default {
   name: "Rental",
@@ -133,7 +113,7 @@ export default {
       // city: null,
       // districts: ['동대문구', '관악구'],
       // district: null,
-      stores: [{'store_id': 1, 'store_name': '명동점', 'tel_no': '010-4940-4072', 'open_time': 9, 'close_time': 18, 'latitude': 20.0, 'longitude': 30.0, 'address': '서울특별시 중구 마른내로 47 (초동)'}, {'store_id': 1, 'store_name': '신당점', 'tel_no': '010-4940-4072', 'open_time': 9, 'close_time': 18, 'latitude': 20.0, 'longitude': 30.0, 'address': '서울특별시 중구 다산로 156 (신당동)'}],
+      stores: null,
       rentalData: {
         item_id: this.drone.id,
         user_id: 0,
@@ -161,6 +141,12 @@ export default {
         this.cost = this.term * this.drone.cost 
       }
     }
+  },
+  created: function() {
+    http.axios.get('/stores')
+    .then( res => {
+      this.stores = res.data.result
+    })
   },
   computed: {
     dateRangeText () {

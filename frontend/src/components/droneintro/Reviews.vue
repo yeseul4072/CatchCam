@@ -12,10 +12,10 @@
           ·
         </div>
         <div class="score_text" v-if="!isNull">
-          평균평점 <span class="colored_text">{{ avg_rate }}</span>
+          평균평점 <span class="colored_text">{{ avg_rate }}점</span>
         </div>
         <div class="score_text" v-if="isNull">
-          평균평점 <span class="colored_text">0</span>
+          평균평점 <span class="colored_text">0점</span>
         </div>
       </div>
     </div>

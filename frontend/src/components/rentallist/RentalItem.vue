@@ -57,7 +57,7 @@
         <v-btn
           outlined
           color="red"
-          @click="reserve"
+          @click="cancel()"
           small
         >
           예약 취소
@@ -192,6 +192,15 @@ export default {
       http.axios.post('/review', this.reviewData)
       .then( res => {
         console.log(res)
+      })
+      .catch( err => {
+        console.log(err)
+      })
+    },
+    cancel() {
+      http.axios.delete('', this.reviewData.rentalId)
+      .then( () => {
+
       })
       .catch( err => {
         console.log(err)

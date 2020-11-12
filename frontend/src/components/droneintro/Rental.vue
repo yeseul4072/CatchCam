@@ -162,13 +162,20 @@ export default {
       this.applyData.storeId = store_id
     },
     apply() {
-      http.axios.post('/rental', this.applyData) 
-      .then (res => {
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      if(!this.applyData.storeId) {
+        alert('대여할 지점을 선택해주세요')
+      } else if (!this.applyData.rentDate || !this.applyData.returnDate) {
+        alert('날짜를 선택해 주세요')
+      } else {
+        http.axios.post('/rental', this.applyData) 
+        .then (() => {
+          alert('대여 예약이 완료되었습니다. 정확한 날짜에 방문하여 물건을 수령해주세요.')
+          this.$router.push({name: 'RentalList'})
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
     }
   }
 

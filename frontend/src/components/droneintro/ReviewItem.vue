@@ -95,7 +95,7 @@
                       <v-btn
                         dark
                         color="green darken-1"
-                        @click="dialog = false; createReview()"
+                        @click="dialog = false; updateReview()"
                         class="ma-2"
                         width="100"
                         rounded
@@ -140,7 +140,7 @@ export default {
       dialog: false,
       updateData: {
         content: this.review.content,
-        rentalId: this.review.rentalId,
+        reviewId: this.review.reviewId,
         starRate: this.review.starRate,
       }
     }
@@ -151,6 +151,13 @@ export default {
       .then( () => {
         this.$emit('deleteReview')
         alert('리뷰가 삭제되었습니다.')
+      })
+    },
+    updateReview() {
+      http.axios.put('/review', this.updateData)
+      .then ( () => {
+        this.$router.go()
+        alert('리뷰가 수정되었습니다.')
       })
     }
   },

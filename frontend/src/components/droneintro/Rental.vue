@@ -28,6 +28,7 @@
                   <v-btn
                     text
                     depressed
+                    @click="mapDialog=true; showMap(item);"
                   > 
                   <div class="icon-wrap">
                     <v-img
@@ -35,6 +36,9 @@
                     ></v-img>
                   </div>
                   </v-btn>
+                  
+
+                  
                 </v-list-item-action>
               </v-list-item>
 
@@ -94,6 +98,52 @@
           >대여 신청하기</v-btn>
         </v-card>
       </div>
+
+
+
+      <v-dialog
+        v-model="mapDialog"
+        persistent
+        max-width="600"
+      >
+        <v-card>
+          <v-toolbar color="#018F26" dark flat class="d-flex justify-center">
+            <v-toolbar-title>
+              {{selectedStore.storeName}}
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-card-text class="py-0">
+            <GmapMap
+            ref="mapRef"
+            :center="center"
+            :zoom="16"
+            style="width:100%; height:400px">
+              <GmapMarker
+              :position="center"
+              >
+              </GmapMarker>
+            </GmapMap>
+            </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="rgb(148, 148, 148)"
+              outlined
+              @click="mapDialog = false"
+              width="70"
+              rounded
+              small
+            >
+              닫기
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-dialog>
+
+
+
   </v-card>
     
 </template>
@@ -115,6 +165,13 @@ export default {
         storeId: null,
         rentDate: null,
         returnDate: null,
+      },
+      mapDialog: false,
+      selectedStore:{
+        
+      },
+      center: {
+
       }
     };
   },
@@ -176,6 +233,10 @@ export default {
           console.log(err)
         })
       }
+    },
+    showMap(item){
+      this.selectedStore = item;
+      this.center = {lat: this.selectedStore.latitude, lng: this.selectedStore.longitude};
     }
   }
 

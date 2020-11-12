@@ -147,6 +147,7 @@ public class RentalController {
 		}
 		return response;
 	}
+	
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header") })
 	@PostMapping("/review")
@@ -210,6 +211,50 @@ public class RentalController {
 			result.result = "리뷰를 삭제할 수 없습니다.";
 			response = new ResponseEntity<CommonResponse>(result, HttpStatus.BAD_REQUEST);
 			log.info(">> Error : deleteReview <<");
+			log.info(e.getMessage().toString());
+		}
+		return response;
+	}
+	
+	@GetMapping("/reviews/recent")
+	@ApiOperation(value = "최신 리뷰 조회")
+	public ResponseEntity<CommonResponse> getRecentReviews() {
+		log.info(">> Load : getRecentReviews <<");
+		ResponseEntity<CommonResponse> response = null;
+		final CommonResponse result = new CommonResponse();
+
+		try {
+			result.result = rentalService.getRecentReviews();
+			result.msg = "success";
+			response = new ResponseEntity<CommonResponse>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			result.msg = "fail";
+			response = new ResponseEntity<CommonResponse>(result, HttpStatus.BAD_REQUEST);
+			log.info(">> Error : getRecentReviews <<");
+			log.info(e.getMessage().toString());
+		}
+		return response;
+	}
+
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header") })
+	@ApiOperation(value = "대여 예약 취소")
+	@DeleteMapping("/rental/{rentalId}")
+	public ResponseEntity<CommonResponse> deleteRental(@PathVariable("rentalId") long rentalId) {
+		log.info(">> Load : deleteRental <<");
+		ResponseEntity<CommonResponse> response = null;
+		final CommonResponse result = new CommonResponse();
+
+		try {
+			rentalService.deleteRental(rentalId);
+			result.msg = "success";
+			result.result = "예약이 취소되었습니다.";
+			response = new ResponseEntity<CommonResponse>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			result.msg = "fail";
+			result.result = "예약을 취소할 수 없습니다.";
+			response = new ResponseEntity<CommonResponse>(result, HttpStatus.BAD_REQUEST);
+			log.info(">> Error : deleteRental <<");
 			log.info(e.getMessage().toString());
 		}
 		return response;

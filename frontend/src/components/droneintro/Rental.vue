@@ -125,15 +125,34 @@ export default {
   },
   watch: {
     'dates': function() {
+      // 시작일 오늘 날짜 이후로
+      let today = new Date()
+      var arr1 = this.dates[0].split('-')
+      this.applyData.rentDate = new Date(arr1[0], arr1[1], arr1[2])
+      var currDay = 24 * 60 * 60 * 1000
+
+      if (parseInt((this.applyData.rentDate - today)/currDay) < 30) {
+        alert(`${today.toISOString().substring(0, 10)} 이후부터 대여 가능합니다.`)
+        this.dates = []
+        this.applyData.rentDate = null 
+        this.cost = null
+      }
+      // 반납일 시작일 이후로 
       if (this.dates[1]) {
         this.getCalendar()
-        var arr1 = this.dates[0].split('-')
-        this.applyData.rentDate = new Date(arr1[0], arr1[1], arr1[2])
         var arr2 = this.dates[1].split('-')
         this.applyData.returnDate = new Date(arr2[0], arr2[1], arr2[2])
-        var currDay = 24 * 60 * 60 * 1000
+        
         this.term = parseInt((this.applyData.returnDate - this.applyData.rentDate)/currDay)
-        this.cost = this.term * this.drone.cost 
+        if (this.term < 0) {
+          alert('반납일은 대여일 이후로 지정해주세요.')
+          this.dates.pop()
+          this.applyData.returnDate = null
+          this.cost = null
+        } else {
+          this.cost = this.term * this.drone.cost 
+
+        }
       }
     }
   },
@@ -162,19 +181,25 @@ export default {
       this.applyData.storeId = store_id
     },
     apply() {
-      if(!this.applyData.storeId) {
-        alert('대여할 지점을 선택해주세요')
-      } else if (!this.applyData.rentDate || !this.applyData.returnDate) {
-        alert('날짜를 선택해 주세요')
+      // 로그인 여부 확인
+      if (!sessionStorage.getItem('Token')) {
+        alert('로그인 후 이용해주세요.')
+        this.$router.push({name: 'Login'})
       } else {
-        http.axios.post('/rental', this.applyData) 
-        .then (() => {
-          alert('대여 예약이 완료되었습니다. 정확한 날짜에 방문하여 물건을 수령해주세요.')
-          this.$router.push({name: 'RentalList'})
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        if(!this.applyData.storeId) {
+          alert('대여할 지점을 선택해주세요')
+        } else if (!this.applyData.rentDate || !this.applyData.returnDate) {
+          alert('날짜를 선택해 주세요')
+        } else {
+          http.axios.post('/rental', this.applyData) 
+          .then (() => {
+            alert('대여 예약이 완료되었습니다. 정확한 날짜에 방문하여 물건을 수령해주세요.')
+            this.$router.push({name: 'RentalList'})
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        }
       }
     }
   }

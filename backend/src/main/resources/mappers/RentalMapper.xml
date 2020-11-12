@@ -150,6 +150,44 @@
 		delete 
 		  from review_list
 		 where review_id = #{reviewId}
-	</delete>
+	</delete>	
+	
+	<!-- 대여 예약 취소 -->
+	<delete id="deleteRental">
+		delete 
+		  from rental_list
+		 where rental_id = #{rentalId}
+	</delete>	
+	
+	<!-- 최신 리뷰 검색 -->
+	<select id="getRecentReviews" resultType="ReviewResponse">
+		select rv.review_id as reviewId,
+			   rv.user_id as userId,
+			   (select user_name from user_list where user_id = rv.user_id) as userName,
+			   rv.content,
+			   date_format(rv.create_date, '%Y-%m-%d') as strCreateDate,
+			   date_format(rv.modify_date, '%Y-%m-%d') as strModifyDate,
+			   rv.star_rate as starRate
+		  from review_list rv
+		  	   inner join
+		  	   rental_list rt
+		  	   on
+		  	   rv.rental_id = rt.rental_id
+	  order by rv.review_id desc
+	     limit 0, 3;
+	</select>
+	
+	<!-- 대여 취소 전 유효성 검사 -->
+	<select id="checkRentalCancelValid" resultType="RentalCancelValidResponse">
+		select if(rent_date > now(), 'Y', 'N') as validDate,
+			   if(rt.user_id = #{userId}, 'Y', 'N') as isMine,
+               if(rv.review_id is not null, 'Y', 'N') as existReview
+		  from rental_list rt
+		  	   left outer join
+		  	   review_list rv
+		  	   on
+		  	   rt.rental_id = rv.rental_id
+		 where rt.rental_id = #{rentalId};
+	</select>
 	
 </mapper>

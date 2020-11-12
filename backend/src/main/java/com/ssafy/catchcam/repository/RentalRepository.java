@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ssafy.catchcam.model.ItemResponse;
+import com.ssafy.catchcam.model.RentalCancelValidResponse;
 import com.ssafy.catchcam.model.RentalRequest;
 import com.ssafy.catchcam.model.RentalResponse;
 import com.ssafy.catchcam.model.ReviewListResponse;
@@ -41,9 +42,18 @@ public interface RentalRepository {
 	//리뷰 삭제
 	public void deleteReview(@Param("reviewId") long reviewId) throws Exception;
 	
-	//대여한 사람과 리뷰를 작성할 사람이 같은 지 확인
+	//대여 예약 취소
+	public void deleteRental(@Param("rentalId") long rentalId) throws Exception;
+	
+	//대여한 사람과 유저가 같은 지 확인
 	public String checkRentalUser(@Param("rentalId") long rentalId, @Param("userId") long userId) throws Exception;
 	
-	//리뷰 작성한 사람과 리뷰를 수정/삭제할 사람이 같은 지 확인
+	//리뷰 작성한 사람과 유저가 같은 지 확인
 	public String checkReviewUser(@Param("reviewId") long reviewId, @Param("userId") long userId) throws Exception;
+	
+	//대여 취소 전 유효성 검사 (대여날짜 이전인지, 대여자 본인인지, 리뷰가 이미 작성되어있는지 확인)
+	public RentalCancelValidResponse checkRentalCancelValid(@Param("rentalId") long rentalId, @Param("userId") long userId) throws Exception;
+	
+	//최신 리뷰 조회
+	public List<ReviewResponse> getRecentReviews() throws Exception;
 }

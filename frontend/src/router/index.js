@@ -30,10 +30,9 @@ const routes = [
     component: DroneIntro
   },
   {
-    path: '/rental/:uid',
+    path: '/rental',
     name: 'RentalList',
     component: RentalList,
-    props: true
   }
 ]
 

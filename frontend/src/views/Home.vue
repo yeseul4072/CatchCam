@@ -184,7 +184,7 @@
   </div>
 </template>
 <script>
-// @ is an alias to /src
+import http from '@/api/api.js'
 
 export default {
   name: "Home",
@@ -219,29 +219,7 @@ export default {
           image: "008-yellow card"
         },
       ],
-      reviews: [
-        { 
-          id: 1,
-          userName: '예슬짱',
-          strCreateDate: '2020-11-12',
-          starRate: 5,
-          content: '고게 졸졸 따라오는데 신기했어요 제가 마치...축구 선수가 된 것 같은 기분..너무 짜릿했어요 어떻게 이런걸 만들었대요? 요즘 애들 참 대단해 취업한다~공부한다~ 우리땐 안그랬는데',
-        },
-        {
-          id: 2,
-          userName: '예슬짱',
-          strCreateDate: '2020-11-12',
-          starRate: 5,
-          content: '고게 졸졸 따라오는데 신기했어요 제가 마치...축구 선수가 된 것 같은 기분..너무 짜릿했어요 어떻게 이런걸 만들었대요? 요즘 애들 참 대단해 취업한다~공부한다~ 우리땐 안그랬는데',
-        },
-        {
-          id: 3,
-          userName: '예슬짱',
-          strCreateDate: '2020-11-12',
-          starRate: 5,
-          content: '고게 졸졸 따라오는데 신기했어요 제가 마치...축구 선수가 된 것 같은 기분..너무 짜릿했어요 어떻게 이런걸 만들었대요? 요즘 애들 참 대단해 취업한다~공부한다~ 우리땐 안그랬는데',
-        }
-      ]
+      reviews: []
     };
   },
   computed: {
@@ -264,6 +242,12 @@ export default {
       });
     },
   },
+  created: function() {
+    http.axios.get('reviews/recent') 
+    .then( res => {
+      this.reviews = res.data.result
+    })
+  }
 };
 </script>
 <style scoped>

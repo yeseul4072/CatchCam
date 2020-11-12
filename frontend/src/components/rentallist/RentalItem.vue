@@ -4,8 +4,8 @@
     class="ma-3 my-card"
     height="425"
     max-width="374"
-    @click="$router.push({name:'DroneIntro'})"
   >
+    <!-- {{ rentalItem.rentalId }} -->
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -198,12 +198,15 @@ export default {
       })
     },
     cancel() {
-      http.axios.delete('', this.reviewData.rentalId)
+      http.axios.delete(`/rental/${this.rentalItem.rentalId}`)
       .then( () => {
-
+        alert('예약이 취소되었습니다.')
+        this.$router.push({name: 'RentalList'})
+        this.$router.go()
       })
       .catch( err => {
-        console.log(err)
+        alert(err.data.result)
+        // console.log(err)
       })
     }
   }

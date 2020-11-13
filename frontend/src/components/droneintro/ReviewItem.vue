@@ -19,7 +19,7 @@
         </div>
 
         <!-- 수정/삭제 버튼 -->
-        <div v-if="review.writerYn" class="text-center">
+        <div v-if="review.writerYn == 'Y'" class="text-center">
           <v-menu offset-y>
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="#8d8d8d" icon dark v-bind="attrs" v-on="on">

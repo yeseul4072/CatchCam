@@ -10,11 +10,11 @@
       >
     </v-img>
 
-    <v-container class="section align-center justify-center" fluid>
-      <v-row class="justify-center my-15 pt-10">
-        <div class="text-h4">언제 CatchCam을 사용하나요?</div>
-      </v-row>
-      <v-row class="d-flex justify-center">
+    <v-container class="section d-flex flex-column align-center justify-center" fluid>
+      <div>
+        <div class="text-h4 my-15">언제 CatchCam을 사용하나요?</div>
+      </div>
+      <div class="box d-flex justify-center">
         <v-card
         width="300px"
         height="300px"
@@ -75,7 +75,7 @@
             경기 판정이 애매할 때
           </v-card-title>
         </v-card>
-      </v-row>
+      </div>
 
       <v-btn fab absolute outlined dark class="main-btn" @click="scrollDown(2)"
         ><v-icon x-large>mdi-arrow-down</v-icon></v-btn
@@ -100,11 +100,11 @@
     </v-img>
 
     <!-- 사용자 리뷰 -->
-    <v-container class="section align-center justify-center" fluid>
-      <v-row class="justify-center my-15 pt-10">
-        <div class="text-h4">실제 사용자들의 후기</div>
-      </v-row>
-      <v-row class="d-flex justify-center">
+    <v-container class="section d-flex flex-column align-center justify-center" fluid>
+      <div>
+        <div class="text-h4 my-15">실제 사용자들의 후기</div>
+      </div>
+      <div class="box d-flex justify-center">
         <v-card
         v-for="review in reviews"
         :key="review.id"
@@ -134,14 +134,14 @@
             {{ review.content }}
           </v-card-text>
         </v-card>
-      </v-row>
+      </div>
 
       <v-btn fab absolute outlined dark class="main-btn" @click="scrollDown(5)"
         ><v-icon x-large>mdi-arrow-down</v-icon></v-btn
       >
     </v-container>
 
-    <v-container class="section align-center justify-center" fluid>
+    <v-container class="section d-flex flex-column justify-space-around" fluid>
       <div class="d-flex justify-center align-center">
         <div class="drone-wrapper">
           <v-img
@@ -165,11 +165,11 @@
             rounded
             large
             @click="$router.push({name: 'Login'})"
-            >로그인하고 대여하기</v-btn>
+            >로그인하고 시작하기</v-btn>
           </div>
         </div>
       </div>   
-      <div class="d-flex flex-column justify-center align-center mt-12">
+      <div class="d-flex flex-column align-center">
         <p class="footer1">
           고객센터(이용 및 결제 문의) ssafy@ssafy.com · 02-000-0000
         </p>        
@@ -191,9 +191,7 @@ export default {
   data() {
     return {
       images: [
-        require("@/assets/main_img.png"),
-        // require("@/assets/main_img2.jpg"),
-        // require("@/assets/main_img3.jpg"),
+        require("@/assets/main.png"),
       ],
       icons: [
         'mdi-facebook',
@@ -312,5 +310,8 @@ export default {
 .date-text {
   color:rgb(148, 148, 148);
   font-size: 12px;
+}
+.box {
+  margin-bottom: 10rem;
 }
 </style>

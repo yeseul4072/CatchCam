@@ -261,12 +261,18 @@ class DroneManager(metaclass=Singleton):
                 while not stop_event.is_set():
                     status += 1
                     if status == 1:
-                        self.up()
+                        # self.up()
+                        self.flip_left()
                     if status == 2:
                         self.clockwise(90)
                     if status == 3:
-                        self.down()
+                        # self.down()
+                        self.flip_right()
                     if status == 4:
+                        self.flip_front()
+                    if status == 5:
+                        self.flip_back()                    
+                    if status == 6:
                         status = 0
                     time.sleep(5)
         else:
@@ -336,10 +342,13 @@ class DroneManager(metaclass=Singleton):
                     percent_face = face_area / FRAME_AREA
 
                     drone_x, drone_y, drone_z, speed = 0, 0, 0, self.speed
+                    # rotate_cw, rotate_ccw = 0, 0
                     if diff_x < -30:
                         drone_y = -30
+                        # rotate_cw = 10
                     if diff_x > 30:
                         drone_y = 30
+                        # rotate_ccw = 10
                     if diff_y < -15:
                         drone_z = -30
                     if diff_y > 15:
@@ -348,11 +357,19 @@ class DroneManager(metaclass=Singleton):
                         drone_x = -30
                     if percent_face < 0.02:
                         drone_x = 30
+                    
+                    # if rotate_cw:
+                    #     self.clockwise(rotate_cw)
+                    # elif rotate_ccw:
+                    #     self.counter_clockwise(rotate_ccw)
+                    # elif drone_x or drone_z:
                     self.send_command(f'go {drone_x} {drone_y} {drone_z} {speed}',
-                                      blocking=False)
+                                        blocking=False)
+
                     break
 
-            if self.is_snapshot and self.x_coor and self.y_coor:
+            # if self.is_snapshot and self.x_coor and self.y_coor:
+            if self.x_coor and self.y_coor:
                 if not self.initBB:
                     self.init_tracking(frame)
                 else:
@@ -371,20 +388,29 @@ class DroneManager(metaclass=Singleton):
                         percent_object = object_area / FRAME_AREA
 
                         drone_x, drone_y, drone_z, speed = 0, 0, 0, self.speed
+                        # rotate_cw, rotate_ccw = 0, 0
                         if diff_x < -30:
                             drone_y = -30
+                            # rotate_cw = 10
                         if diff_x > 30:
                             drone_y = 30
+                            # rotate_ccw = 10
                         if diff_y < -15:
                             drone_z = -30
                         if diff_y > 15:
                             drone_z = 30
                         if percent_object > 0.70:
                             drone_x = -30
-                        if percent_object < 0.02:
+                        if percent_object < 0.01:
                             drone_x = 30
+
+                        # if rotate_cw:
+                        #     self.clockwise(rotate_cw)
+                        # elif rotate_ccw:
+                        #     self.counter_clockwise(rotate_ccw)
+                        # elif drone_x or drone_z:
                         self.send_command(f'go {drone_x} {drone_y} {drone_z} {speed}',
-                                        blocking=False)
+                                            blocking=False)
 
             _, jpeg = cv.imencode('.jpg', frame)
             jpeg_binary = jpeg.tobytes()
@@ -425,15 +451,23 @@ class DroneManager(metaclass=Singleton):
         return False
 
     def init_coordinate(self, x_coor, y_coor):
-        if self.is_snapshot:
-            self.x_coor = int(x_coor)
-            self.y_coor = int(y_coor)
-        else:
+        # if self.is_snapshot:
+        #     self.x_coor = int(x_coor)
+        #     self.y_coor = int(y_coor)
+        # else:
+        #     self.x_coor = None
+        #     self.y_coor = None
+        if self.x_coor or self.y_coor:
             self.x_coor = None
             self.y_coor = None
+        else:
+            self.x_coor = int(x_coor)
+            self.y_coor = int(y_coor)
 
     def init_tracking(self, frame):
-        if self.is_snapshot and self.x_coor and self.y_coor:
+        # if self.is_snapshot and self.x_coor and self.y_coor:
+        if self.x_coor and self.y_coor:
+            logger.info({'action': 'init_tracking'})
             # self.initBB = (self.x_coor, self.y_coor, 45*3, 45*3)
             # self.tracker.init(frame, self.initBB)
 
@@ -476,7 +510,7 @@ class DroneManager(metaclass=Singleton):
                     x, y, w, h = boxes[i]
                     label = str(classes[class_ids[i]])
                     
-                    if (label == 'sports ball' or label == 'person') and (x <= self.x_coor <= x+w and y <= self.y_coor <= y+h):
+                    if (label == 'sports ball' or label == 'person' ) and (x <= self.x_coor <= x+w and y <= self.y_coor <= y+h):
                     # if label == 'sports ball' or label == 'person' :
                         self.initBB = (x,y,w,h)
                         self.tracker.init(frame, self.initBB)

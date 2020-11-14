@@ -27,7 +27,7 @@
                         <v-checkbox
                         v-model="saveId"
                         label="아이디 저장"
-                        color="#07B480"
+                        color="#018F26"
                         value="primary"
                         hide-details
                         class="mt-0"
@@ -39,7 +39,7 @@
                             class="login_btn"
                             block
                             large
-                            color="#07B480"
+                            color="#018F26"
                             @click="login(email, password)"
                             :disabled="!isComplete"
                         >

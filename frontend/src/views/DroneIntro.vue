@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="8">
         <div class="text-h4 title">{{ drone.itemName }}</div>
-        <div class="text-h5">{{ drone.cost }}원 / 일</div>
+        <div class="text-h5">{{ drone.cost | comma }}원 / 일</div>
         <v-img src="@/assets/drone4.png"></v-img>
           <v-tabs 
             fixed-tabs
@@ -21,17 +21,19 @@
         <div class="subtitle">사용 방법</div>
         <div class="subtitle">이용 안내</div>
         <v-img
+          class="mx-15"
           src="@/assets/guide.png"
         ></v-img>
         <div class="subtitle">후기</div>
         <Reviews :drone="drone"/>
-        <div class="subtitle">질문</div>
+        <!-- <div class="subtitle">질문</div> -->
         
       </v-col>
       <v-col class="pl-10" cols="4">
         <Rental :drone="drone"/>
       </v-col>
     </v-row>
+    <Footer/>
   </v-container>
 </template>
 
@@ -39,6 +41,7 @@
 // import axios from 'axios'
 import Rental from '@/components/droneintro/Rental'
 import Reviews from '@/components/droneintro/Reviews'
+import Footer from '@/components/Footer'
 import http from '@/api/api.js'
 
 
@@ -47,12 +50,19 @@ export default {
   components: {
     Rental,
     Reviews,
+    Footer
   },
   data() {
     return {
       drone: null,
       rentalTop: 0,
     };
+  },
+  filters: {
+    comma: function(value) {
+      var num = new Number(value);
+      return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
   },
   created () {
     http.axios.get('/item/1') 

@@ -169,14 +169,7 @@
           </div>
         </div>
       </div>   
-      <div class="d-flex flex-column align-center">
-        <p class="footer1">
-          고객센터(이용 및 결제 문의) ssafy@ssafy.com · 02-000-0000
-        </p>        
-        <p class="footer2">
-          주식회사 181 / 서울특별시 강남구 역삼동 테헤란로 212 멀티캠퍼스 / 대표번호 02-000-0000
-        </p>
-      </div> 
+      <Footer/>
       <v-btn fab absolute outlined dark class="main-btn" @click="scrollToTop()"
           ><v-icon x-large>mdi-arrow-up</v-icon>
       </v-btn>
@@ -185,6 +178,8 @@
 </template>
 <script>
 import http from '@/api/api.js'
+import Footer from '@/components/Footer'
+
 
 export default {
   name: "Home",
@@ -219,6 +214,9 @@ export default {
       ],
       reviews: []
     };
+  },
+  components: {
+    Footer
   },
   computed: {
     randomImage() {
@@ -276,16 +274,7 @@ export default {
   height: 100vh;
   color: white;
 }
-.footer1 {
-  font-size: 14px;
-  color:rgb(160, 160, 160);
-  margin: 0;
-}
-.footer2 {
-  font-size: 13px;
-  color:gray;
-  margin: 0;
-}
+
 .circle {
   width: 20vw;
   height: 20vw;

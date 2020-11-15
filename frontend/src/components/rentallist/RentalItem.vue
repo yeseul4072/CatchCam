@@ -3,7 +3,7 @@
     color="#23252d"
     class="ma-3 my-card"
     height="425"
-    max-width="374"
+    
   >
     <!-- {{ rentalItem.rentalId }} -->
     <template slot="progress">

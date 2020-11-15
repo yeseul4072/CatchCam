@@ -390,15 +390,15 @@ class DroneManager(metaclass=Singleton):
                         drone_x, drone_y, drone_z, speed = 0, 0, 0, self.speed
                         # rotate_cw, rotate_ccw = 0, 0
                         if diff_x < -30:
-                            drone_y = -30
+                            drone_y = -20
                             # rotate_cw = 10
                         if diff_x > 30:
-                            drone_y = 30
+                            drone_y = 20
                             # rotate_ccw = 10
                         if diff_y < -15:
-                            drone_z = -30
+                            drone_z = -20
                         if diff_y > 15:
-                            drone_z = 30
+                            drone_z = 20
                         if percent_object > 0.70:
                             drone_x = -30
                         if percent_object < 0.01:
@@ -487,34 +487,42 @@ class DroneManager(metaclass=Singleton):
                 for detection in out:
                     scores = detection[5:]
                     class_id = np.argmax(scores)
-                    confidence = scores[class_id]
-                    if confidence > 0.5:
-                        # Object detected
-                        center_x = int(detection[0] * W)
-                        center_y = int(detection[1] * H)
-                        w = int(detection[2] * W)
-                        h = int(detection[3] * H)
+                    if str(classes[class_id]) == 'sports ball' or str(classes[class_id]) == 'person':
+                        confidence = scores[class_id]
+                        if confidence > 0.5:
+                            # Object detected
+                            center_x = int(detection[0] * W)
+                            center_y = int(detection[1] * H)
+                            w = int(detection[2] * W)
+                            h = int(detection[3] * H)
 
-                        # Rectangle coordinates
-                        x = int(center_x - w / 2)
-                        y = int(center_y - h / 2)
+                            # Rectangle coordinates
+                            x = int(center_x - w / 2)
+                            y = int(center_y - h / 2)
 
-                        boxes.append([x, y, w, h])
-                        confidences.append(float(confidence))
-                        class_ids.append(class_id)
+                            if (x <= self.x_coor <= x+w and y <= self.y_coor <= y+h):
+                                boxes.append([x, y, w, h])
+                                confidences.append(float(confidence))
+                                class_ids.append(class_id)
 
-            indexes = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
-            
-            for i in range(len(boxes)):
-                if i in indexes:
-                    x, y, w, h = boxes[i]
-                    label = str(classes[class_ids[i]])
-                    
-                    if (label == 'sports ball' or label == 'person' ) and (x <= self.x_coor <= x+w and y <= self.y_coor <= y+h):
-                    # if label == 'sports ball' or label == 'person' :
-                        self.initBB = (x,y,w,h)
-                        self.tracker.init(frame, self.initBB)
-                        return
+
+            if boxes:
+                indexes = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
+                for i in range(len(boxes)):
+                    if i in indexes:
+                        x, y, w, h = boxes[i]
+                        label = str(classes[class_ids[i]])
+                        logger.info({'label': label})
+                        
+                        # if (label == 'sports ball' or label == 'person' ) and (x <= self.x_coor <= x+w and y <= self.y_coor <= y+h):
+                        if label == 'sports ball' or label == 'person' :
+                            self.initBB = (x,y,w,h)
+                            self.tracker.init(frame, self.initBB)
+                            return
+
+            self.x_coor = None
+            self.y_coor = None
+                        
 
 
 

@@ -300,8 +300,4 @@ export default {
   background-color: rgb(228, 228, 228);
 }
 
-.rental-card {
-  position: fixed;
-  width: 100%;
-}
 </style>

@@ -30,7 +30,7 @@
         
       </v-col>
       <v-col class="pl-10" cols="4">
-        <Rental :drone="drone"/>
+        <Rental :drone="drone" v-bind:class="{ sticky: isSticky }"/>
       </v-col>
     </v-row>
     <Footer/>
@@ -56,6 +56,7 @@ export default {
     return {
       drone: null,
       rentalTop: 0,
+      isSticky: false,
     };
   },
   filters: {
@@ -87,8 +88,9 @@ export default {
 
 <style scoped>
 .droneintro {
-  margin-top: 5vh;
+  margin-top: 72px;
 }
+
 .title {
   font-weight: 900;
   height: 50px;
@@ -102,5 +104,10 @@ export default {
 }
 .map_wrap {
   width: 1%;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 </style>

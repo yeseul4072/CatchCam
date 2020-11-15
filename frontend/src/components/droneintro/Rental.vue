@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="400">
+  <v-card max-width="400" class="rental-card">
       <v-card
         outlined
         max-width="400"
@@ -298,5 +298,10 @@ export default {
 }
 .clicked {
   background-color: rgb(228, 228, 228);
+}
+
+.rental-card {
+  position: fixed;
+  width: 100%;
 }
 </style>

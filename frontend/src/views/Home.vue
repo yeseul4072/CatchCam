@@ -1,16 +1,5 @@
 <template>
   <div id="app">
-    <!-- <v-carousel
-      cycle="cycle"
-      hide-delimiters
-      interval="7000"
-      :show-arrows="false"
-      height="100vh"
-      class=""
-    >
-      <v-carousel-item v-for="(image, i) in images" :key="i" :src="image">
-      </v-carousel-item>
-    </v-carousel> -->
     
     <v-img
       class="section head-image text-center align-center"
@@ -21,11 +10,11 @@
       >
     </v-img>
 
-    <v-container class="section align-center justify-center" fluid>
-      <v-row class="justify-center my-15 pt-10">
-        <div class="text-h4">언제 CatchCam을 사용하나요?</div>
-      </v-row>
-      <v-row class="d-flex justify-center">
+    <v-container class="section d-flex flex-column align-center justify-center" fluid>
+      <div>
+        <div class="text-h4 my-15">언제 CatchCam을 사용하나요?</div>
+      </div>
+      <div class="box d-flex justify-center">
         <v-card
         width="300px"
         height="300px"
@@ -86,7 +75,7 @@
             경기 판정이 애매할 때
           </v-card-title>
         </v-card>
-      </v-row>
+      </div>
 
       <v-btn fab absolute outlined dark class="main-btn" @click="scrollDown(2)"
         ><v-icon x-large>mdi-arrow-down</v-icon></v-btn
@@ -109,83 +98,50 @@
         ><v-icon x-large>mdi-arrow-down</v-icon></v-btn
       >
     </v-img>
-    
-<!-- 
-    <v-container class="section" fluid>
-      <v-row>
-        <v-col cols="6">
-          <v-img src="../assets/main_img2.jpg"></v-img>
-        </v-col>
-        <v-col cols="6">
-          <h2>다양한 각도와 방향에서 영상 녹화</h2>
-          <h3>CatchCam은 드론으로 공중에서 촬영합니다.</h3>
-        </v-col>
-        
-      </v-row>
-      <v-btn fab absolute outlined dark class="main-btn" @click="scrollToTop()"
-        ><v-icon x-large>mdi-arrow-up</v-icon></v-btn
-      >
-    </v-container> -->
 
     <!-- 사용자 리뷰 -->
-    <v-container class="section align-center justify-center" fluid>
-      <v-row class="justify-center my-15 pt-10">
-        <div class="text-h4">실제 사용자들의 후기</div>
-      </v-row>
-      <v-row class="d-flex justify-center">
+    <v-container class="section d-flex flex-column align-center justify-center" fluid>
+      <div>
+        <div class="text-h4 my-15">실제 사용자들의 후기</div>
+      </div>
+      <div class="box d-flex justify-center">
         <v-card
+        v-for="review in reviews"
+        :key="review.id"
         width="300px"
         height="300px"
         color="#23252d"
         flat
-        class="d-flex flex-column align-center justify-center mx-3"
+        class="d-flex flex-column align-start justify-center mx-3"
         > 
-          <v-img
-            class="icon"
-            src="@/assets/home/011-soccer field.png"
-          ></v-img>
-          <v-card-title class="white--text explain">
-            경기 분석이 필요할 때
+          <v-card-title class="white--text explain pb-3">
+            {{ review.userName }}
           </v-card-title>
+          <v-card-subtitle class="date-text pb-0" style="color:rgb(148, 148, 148);">
+            {{ review.strCreateDate }}
+          </v-card-subtitle>
+          <v-rating
+            :value="review.starRate"
+            readonly
+            color="yellow darken-3"
+            background-color="grey darken-1"
+            empty-icon="$ratingFull"
+            dense
+            size="15"
+            class="pl-3"
+          ></v-rating>
+          <v-card-text class="white--text pt-2">
+            {{ review.content }}
+          </v-card-text>
         </v-card>
-        <v-card
-        width="300px"
-        height="300px"
-        color="#23252d"
-        flat
-        class="d-flex flex-column align-center justify-center mx-3"
-        > 
-          <v-img
-            class="icon"
-            src="@/assets/home/036-soccer.png"
-          ></v-img>
-          <v-card-title class="white--text explain">
-            경기하는 내 모습을 간직하고 싶을 때
-          </v-card-title>
-        </v-card>
-        <v-card
-        width="300px"
-        height="300px"
-        color="#23252d"
-        flat
-        class="d-flex flex-column align-center justify-center mx-3"
-        > 
-          <v-img
-            class="icon"
-            src="@/assets/home/015-team bench.png"
-          ></v-img>
-          <v-card-title class="white--text explain">
-            경기를 녹화해 줄 인력이 부족할 때
-          </v-card-title>
-        </v-card>
-      </v-row>
+      </div>
 
       <v-btn fab absolute outlined dark class="main-btn" @click="scrollDown(5)"
         ><v-icon x-large>mdi-arrow-down</v-icon></v-btn
       >
     </v-container>
 
-    <v-container class="section align-center justify-center" fluid>
+    <v-container class="section d-flex flex-column justify-space-around" fluid>
       <div class="d-flex justify-center align-center">
         <div class="drone-wrapper">
           <v-img
@@ -209,104 +165,28 @@
             rounded
             large
             @click="$router.push({name: 'Login'})"
-            >로그인하고 대여하기</v-btn>
+            >로그인하고 시작하기</v-btn>
           </div>
         </div>
       </div>   
-      <div class="d-flex flex-column justify-center align-center mt-12">
-        <p class="footer1">
-          고객센터(이용 및 결제 문의) ssafy@ssafy.com · 02-000-0000
-        </p>        
-        <p class="footer2">
-          주식회사 181 / 서울특별시 강남구 역삼동 테헤란로 212 멀티캠퍼스 / 대표번호 02-000-0000
-        </p>
-      </div> 
+      <Footer/>
       <v-btn fab absolute outlined dark class="main-btn" @click="scrollToTop()"
           ><v-icon x-large>mdi-arrow-up</v-icon>
       </v-btn>
     </v-container>
-  
-    <!--     
-        <v-flex style="margin-top: 70px" >
-          <v-row>
-            <v-col cols="8" align-self="center">
-                <div class="intro_title">드론 초심자도</div>
-                <div class="intro_content">
-                  자율 주행으로 공을 추적하며 경기를 촬영합니다.
-                </div>
-            </v-col>
-            <v-col cols="4">
-              <div
-                style="
-                  width: 200px;
-                  height: 200px;
-                  background-color: rgb(198 214 242);
-                "
-              ></div>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="8" align-self="center">
-              <v-row>
-                <div class="intro_title">다양한 각도와 방향에서</div>
-              </v-row>
-              <v-row>
-                <div class="intro_content">
-                  CatchCam은 드론으로 공중에서 촬영합니다.
-                </div>
-              </v-row>
-            </v-col>
-            <v-col cols="4">
-              <div
-                style="
-                  width: 200px;
-                  height: 200px;
-                  background-color: rgb(198 214 242);
-                "
-              ></div>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="8" align-self="center">
-              <v-row>
-                <div class="intro_title">유튜브 플랫폼을 활용한</div>
-              </v-row>
-              <v-row>
-                <div class="intro_content">
-                  유튜브 동영상 플랫폼을 활용해 경기 녹화 영상을 라이브
-                  방송하거나, 혹은 저장하여 간직할 수 있습니다.
-                </div>
-              </v-row>
-            </v-col>
-            <v-col cols="4">
-              <div
-                style="
-                  width: 200px;
-                  height: 200px;
-                  background-color: rgb(198 214 242);
-                "
-              ></div>
-            </v-col>
-          </v-row>
-        </v-flex>
-        <v-flex style="margin: 70px 0; text-align: center">
-          <v-btn rounded dark large color="#07B480">로그인하고 대여하기</v-btn>
-        </v-flex>
-      </v-layout>
-    </v-container> -->
   </div>
 </template>
 <script>
-// @ is an alias to /src
+import http from '@/api/api.js'
+import Footer from '@/components/Footer'
+
 
 export default {
   name: "Home",
   data() {
     return {
       images: [
-        require("@/assets/main_img.png"),
-        // require("@/assets/main_img2.jpg"),
-        // require("@/assets/main_img3.jpg"),
+        require("@/assets/main.png"),
       ],
       icons: [
         'mdi-facebook',
@@ -331,8 +211,12 @@ export default {
           caption: "경기 판정이 애매할 때",
           image: "008-yellow card"
         },
-      ]
+      ],
+      reviews: []
     };
+  },
+  components: {
+    Footer
   },
   computed: {
     randomImage() {
@@ -354,6 +238,12 @@ export default {
       });
     },
   },
+  created: function() {
+    http.axios.get('reviews/recent') 
+    .then( res => {
+      this.reviews = res.data.result
+    })
+  }
 };
 </script>
 <style scoped>
@@ -384,16 +274,7 @@ export default {
   height: 100vh;
   color: white;
 }
-.footer1 {
-  font-size: 14px;
-  color:rgb(160, 160, 160);
-  margin: 0;
-}
-.footer2 {
-  font-size: 13px;
-  color:gray;
-  margin: 0;
-}
+
 .circle {
   width: 20vw;
   height: 20vw;
@@ -414,5 +295,12 @@ export default {
   bottom: 14vh;
   left: 50%;
   transform: translateX(-50%);
+}
+.date-text {
+  color:rgb(148, 148, 148);
+  font-size: 12px;
+}
+.box {
+  margin-bottom: 10rem;
 }
 </style>

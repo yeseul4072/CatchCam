@@ -7,6 +7,7 @@ import com.ssafy.catchcam.model.RentalRequest;
 import com.ssafy.catchcam.model.RentalResponse;
 import com.ssafy.catchcam.model.ReviewListResponse;
 import com.ssafy.catchcam.model.ReviewRequest;
+import com.ssafy.catchcam.model.ReviewResponse;
 import com.ssafy.catchcam.model.StoreResponse;
 
 public interface RentalService {
@@ -34,4 +35,10 @@ public interface RentalService {
 	
 	//리뷰 삭제
 	public void deleteReview(long reviewId) throws Exception;
+	
+	//대여 예약 취소
+	public void deleteRental(long rentalId) throws Exception;
+	
+	//최신 리뷰 조회
+	public List<ReviewResponse> getRecentReviews() throws Exception;
 }

@@ -7,10 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.catchcam.model.ItemResponse;
+import com.ssafy.catchcam.model.RentalCancelValidResponse;
 import com.ssafy.catchcam.model.RentalRequest;
 import com.ssafy.catchcam.model.RentalResponse;
 import com.ssafy.catchcam.model.ReviewListResponse;
 import com.ssafy.catchcam.model.ReviewRequest;
+import com.ssafy.catchcam.model.ReviewResponse;
 import com.ssafy.catchcam.model.StoreResponse;
 import com.ssafy.catchcam.model.UserAuthDetails;
 import com.ssafy.catchcam.repository.RentalRepository;
@@ -92,6 +94,39 @@ public class RentalServiceImpl implements RentalService {
 		
 		//존재여부 확인하기
 		rentalRepository.deleteReview(reviewId);
+	}
+	
+	@Override
+	public void deleteRental(long rentalId) throws Exception{
+		
+		if(rentalId < 1) {
+			throw new Exception("유효하지 않은 대여 건입니다.");
+		}
+
+		UserAuthDetails user = (UserAuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		RentalCancelValidResponse valid = rentalRepository.checkRentalCancelValid(rentalId, user.getUserId());
+		
+		if(valid == null) {
+			throw new Exception("존재하지 않는 대여 내역입니다.");
+			
+		}else if("N".equals(valid.getIsMine())) {
+			throw new Exception("예약 취소 권한이 없습니다.");
+			
+		}else if("N".equals(valid.getValidDate())) {
+			throw new Exception("이미 지난 대여 내역입니다. 대여지점에 문의해주세요.");
+			
+		}else if("Y".equals(valid.getExistReview())) {
+			throw new Exception("이미 리뷰 등록된 대여 내역입니다. 리뷰를 먼저 삭제해주세요.");
+			
+		}
+		//예약 취소
+		rentalRepository.deleteRental(rentalId);
+	}
+	
+	@Override
+	public List<ReviewResponse> getRecentReviews() throws Exception{
+		return rentalRepository.getRecentReviews();
 	}
 	
 }

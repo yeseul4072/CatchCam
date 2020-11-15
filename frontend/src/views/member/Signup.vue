@@ -33,11 +33,13 @@
                         <v-text-field
                             label="비밀번호"
                             placeholder="비밀번호"
+                            type="password"
                             v-model="signupData.password"
                             :hint="error.password"
                         ></v-text-field>
                         <v-text-field
                             label="비밀번호 확인"
+                            type="password"
                             placeholder="비밀번호 확인"
                             v-model="passwordConfirm"
                             :hint="error.passwordConfirm"
@@ -49,7 +51,7 @@
                             class="signup_btn"
                             block
                             large
-                            color="#07B480"
+                            color="#018F26"
                             :disabled="!isComplete"
                             @click="signup(signupData)"
                         >
@@ -69,7 +71,7 @@
 <script>
 import * as EmailValidator from "email-validator";
 import PV from "password-validator";
-import axios from "axios";
+import http from '@/api/api.js'
 
 export default {
     data() {
@@ -103,19 +105,27 @@ export default {
         .letters()
     },
     watch: {
-        'userName': function() {
-            this.checkAll()
-        },
-        'email': function() {
+        'signupData.userName': function() {
             this.checkEmail()
+            this.checkPassword()
+            this.checkPasswordConfirm()
             this.checkAll()
         },
-        'password': function() {
+        'signupData.email': function() {
+            this.checkEmail()
+            this.checkPassword()
+            this.checkPasswordConfirm()
+            this.checkAll()
+        },
+        'signupData.password': function() {
+            this.checkEmail()
             this.checkPassword()
             this.checkPasswordConfirm()
             this.checkAll()
         },
         'passwordConfirm': function() {
+            this.checkEmail()
+            this.checkPassword()
             this.checkPasswordConfirm()
             this.checkAll()
         }
@@ -139,8 +149,10 @@ export default {
         },
         checkPasswordConfirm () {
             if (this.passwordConfirm.length >= 0 &&
-                this.password != this.passwordConfirm
+                this.signupData.password != this.passwordConfirm
             ) {
+                console.log(this.signupData.password)
+                console.log(this.passwordConfirm)
                 this.error.passwordConfirm = "동일한 비밀번호를 입력하세요."
             } else {
                 this.error.passwordConfirm = false
@@ -149,19 +161,20 @@ export default {
         },
         checkAll() {
             // 모든 값이 차있고, error 모든 값 false
-            if (this.userName && this.email && this.password && this.passwordConfirm &&
+            if (this.signupData.userName.length > 0 && this.signupData.email.length > 0 && this.signupData.password.length > 0 && this.passwordConfirm.length > 0 &&
             !this.error.email && !this.error.password && !this.error.passwordConfirm) {
                 this.isComplete = true
+                console.log(this.error.passwordConfirm)
             } else {
                 this.isComplete = false
+                console.log(this.error.passwordConfirm)
             }
         },
         signup(signupData) {
-            console.log(signupData)
-            axios.post(`http://localhost:8080/signup`, signupData)
-                .then(res => {
-                    console.log(res)
+            http.axios.post('/signup', signupData)
+                .then(() => {
                     alert("회원가입이 완료되었습니다")
+                    this.$router.push({name: 'Home'})
                 })
                 .catch(err => {
                     console.log(err)

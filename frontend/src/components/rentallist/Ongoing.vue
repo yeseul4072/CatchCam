@@ -3,7 +3,7 @@
     <v-row>
       <v-col
         class="pa-0"
-        cols="4"
+        cols="3"
         v-for="rentalItem in rental_list"
         :key="rentalItem.id"
       >

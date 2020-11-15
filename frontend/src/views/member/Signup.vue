@@ -51,7 +51,7 @@
                             class="signup_btn"
                             block
                             large
-                            color="#07B480"
+                            color="#018F26"
                             :disabled="!isComplete"
                             @click="signup(signupData)"
                         >

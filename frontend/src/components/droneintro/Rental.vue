@@ -1,105 +1,99 @@
 <template>
-  <v-card class="Rental">
-     <v-card-subtitle class="subtitle">지점 선택</v-card-subtitle>
-      <div>
-        <v-card
-          outlined
-          max-width="400"
-          class="mx-auto d-flex flex-column justify-center"
-        >         
-          <v-virtual-scroll
-            :items="stores"
-            item-height="64"
-            v-if="stores"
-          > 
-            
-            <template v-slot:default="{ item }">
-              <v-list-item :key="item.storeId" class="store_item" @click="getStore(item.storeId)" v-bind:class="{clicked: applyData.storeId === item.storeId }">
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <strong>{{ item.storeName }}</strong> {{ item.telNo }}
-                  </v-list-item-title>
-                  <v-list-item-title class="sm-content">
-                    {{ item.address }}
-                  </v-list-item-title>
-                </v-list-item-content>
+  <v-card max-width="400" class="rental-card">
+      <v-card
+        outlined
+        max-width="400"
+        class="mx-auto d-flex flex-column justify-center"
+      >         
+        <v-card-subtitle class="subtitle">지점 선택</v-card-subtitle>
+        <v-virtual-scroll
+          :items="stores"
+          item-height="64"
+          v-if="stores"
+        > 
+          
+          <template v-slot:default="{ item }">
+            <v-list-item :key="item.storeId" class="store_item" @click="getStore(item.storeId)" v-bind:class="{clicked: applyData.storeId === item.storeId }">
+              <v-list-item-content>
+                <v-list-item-title>
+                  <strong>{{ item.storeName }}</strong> {{ item.telNo }}
+                </v-list-item-title>
+                <v-list-item-title class="sm-content">
+                  {{ item.address }}
+                </v-list-item-title>
+              </v-list-item-content>
 
-                <v-list-item-action>
-                  <v-btn
-                    text
-                    depressed
-                    @click="mapDialog=true; showMap(item);"
-                  > 
-                  <div class="icon-wrap">
-                    <v-img
-                      src="@/assets/map.png"
-                    ></v-img>
-                  </div>
-                  </v-btn>
-                  
+              <v-list-item-action>
+                <v-btn
+                  text
+                  depressed
+                  @click="mapDialog=true; showMap(item);"
+                > 
+                <div class="icon-wrap">
+                  <v-img
+                    src="@/assets/map.png"
+                  ></v-img>
+                </div>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
 
-                  
-                </v-list-item-action>
-              </v-list-item>
+            <v-divider></v-divider>
+          </template>
+        </v-virtual-scroll>
 
-              <v-divider></v-divider>
-            </template>
-          </v-virtual-scroll>
-
-    <v-card-subtitle class="subtitle mt-5">날짜 선택</v-card-subtitle>
-      <div class="d-flex justify-center">
-        <v-card class="btn-text" @click="getCalendar()">
-          <v-card-title class="btn-title">시작일</v-card-title>
-          <v-card-subtitle v-if="dates[0]">{{dates[0]}}</v-card-subtitle>
-          <v-card-subtitle v-else>날짜추가</v-card-subtitle>
-        </v-card>
-        <v-card class="btn-text" @click="getCalendar()">
-          <v-card-title class="btn-title">반납일</v-card-title>
-          <v-card-subtitle v-if="dates[1]">{{dates[1]}}</v-card-subtitle>
-          <v-card-subtitle v-else>날짜추가</v-card-subtitle>
-        </v-card>
-      </div>
-      <!-- calendar -->
-      <v-card-text>
-        <v-row v-if="showCalendar" justify="center">
-            <v-date-picker
-              full-width
-              v-model="dates"
-              range
-            ></v-date-picker>
-        </v-row>
-      </v-card-text>
-      
-      <div v-if="cost">
-        <v-card-subtitle class="subtitle">가격</v-card-subtitle>
-        <v-card-text class="d-flex flex-column">
-          <div class="d-flex justify-sm-space-between">
-            <div>
-              대여료 
-            </div>
-            <strong>
-              ₩{{ drone.cost }} × {{ term }}일
-            </strong>
-          </div>
-          <hr class="my-3">
-          <div class="emp-text align-self-end">
-            ₩{{ cost }}
-          </div>
+        <v-card-subtitle class="subtitle mt-5">날짜 선택</v-card-subtitle>
+        <div class="d-flex justify-center">
+          <v-card class="btn-text" @click="getCalendar()">
+            <v-card-title class="btn-title">시작일</v-card-title>
+            <v-card-subtitle v-if="dates[0]">{{dates[0]}}</v-card-subtitle>
+            <v-card-subtitle v-else>날짜추가</v-card-subtitle>
+          </v-card>
+          <v-card class="btn-text" @click="getCalendar()">
+            <v-card-title class="btn-title">반납일</v-card-title>
+            <v-card-subtitle v-if="dates[1]">{{dates[1]}}</v-card-subtitle>
+            <v-card-subtitle v-else>날짜추가</v-card-subtitle>
+          </v-card>
+        </div>
+        <!-- calendar -->
+        <v-card-text>
+          <v-row v-if="showCalendar" justify="center">
+              <v-date-picker
+                full-width
+                v-model="dates"
+                range
+                header-color="#018F26"
+                color="#018F26"
+              ></v-date-picker>
+          </v-row>
         </v-card-text>
-      </div>
+        <!-- 대여료 -->
+        <div v-if="cost">
+          <v-card-subtitle class="subtitle">가격</v-card-subtitle>
+          <v-card-text class="d-flex flex-column">
+            <div class="d-flex justify-sm-space-between">
+              <div>
+                대여료 
+              </div>
+              <strong>
+                ₩{{ drone.cost | comma }} × {{ term }}일
+              </strong>
+            </div>
+            <hr class="my-3">
+            <div class="emp-text align-self-end">
+              ₩{{ cost | comma }}
+            </div>
+          </v-card-text>
+        </div>
 
-     
-          <v-btn
-          class="ma-3 my-5"
-          color="#018F26"
-          dark
-          large
-          @click="apply()"
-          >대여 신청하기</v-btn>
-        </v-card>
-      </div>
-
-
+        <v-btn
+        class="ma-3 my-5"
+        color="#018F26"
+        dark
+        large
+        @click="apply()"
+        >대여 신청하기</v-btn>
+      </v-card>
 
       <v-dialog
         v-model="mapDialog"
@@ -142,10 +136,7 @@
 
       </v-dialog>
 
-
-
   </v-card>
-    
 </template>
 
 <script>
@@ -178,6 +169,12 @@ export default {
   props: {
     drone: {
       type: Object,
+    }
+  },
+  filters: {
+    comma: function(value) {
+      var num = new Number(value);
+      return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
   },
   watch: {
@@ -301,5 +298,10 @@ export default {
 }
 .clicked {
   background-color: rgb(228, 228, 228);
+}
+
+.rental-card {
+  position: fixed;
+  width: 100%;
 }
 </style>

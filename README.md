@@ -23,6 +23,10 @@ CatchCam은 위 요구사항을 만족시키기 위해 기획하였습니다.
 
 
 
+### 📽 사용방법
+
+[![CatchCam 사용방법](http://img.youtube.com/vi/85DyUDAbDY0/0.jpg)](https://youtu.be/85DyUDAbDY0?t=0s)
+
 
 
 ### 📃 ERD

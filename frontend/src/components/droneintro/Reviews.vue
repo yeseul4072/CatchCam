@@ -35,7 +35,7 @@
         circle
         dark
         v-model="page"
-        :length="reviewCount"
+        :length="pageCount"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
       ></v-pagination>
@@ -63,13 +63,18 @@ export default {
       reviews: [],
       reviewCount: 1,
       page: 1,
+      pageCount: 1
     }
   },
-  created: function() {
-    http.axios.get('/reviews/1', { params: {page: this.page}}) 
+  mounted: function() {
+    http.axios.get('/reviews/1', { params: {page: this.page }}) 
     .then( res => {
-      console.log(res)
-      this.reviewCount += res.data.result.reviewCount / 5
+      if (res.data.result.reviewCount % 5 === 0) {
+        this.pageCount = Math.floor(res.data.result.reviewCount / 5)
+      } else {
+        this.pageCount = Math.floor(res.data.result.reviewCount / 5 + 1)
+      }
+      
       if(res.data.result) {
         this.isNull = false
       }
@@ -84,6 +89,11 @@ export default {
       http.axios.get('/reviews/1', { params: {page: this.page} })
       .then( res => {
         this.reviews = res.data.result.reviews
+        if (res.data.result.reviewCount % 5 === 0) {
+          this.pageCount = Math.floor(res.data.result.reviewCount / 5)
+        } else {
+          this.pageCount = Math.floor(res.data.result.reviewCount / 5 + 1)
+        }
       })
     } 
   },

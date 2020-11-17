@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-10">
     <div class="d-flex justify-space-between align-center">
       <div class="d-flex">
         <div class="score_text" v-if="!isNull">
@@ -29,6 +29,17 @@
       @deleteReview="reload()"
       />
     </div>
+    <div class="text-center mt-15">
+      <v-pagination
+        color="#23252d"
+        circle
+        dark
+        v-model="page"
+        :length="reviewCount"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -49,13 +60,16 @@ export default {
   data() {
     return {
       isNull: true,
-      reviews: []
+      reviews: [],
+      reviewCount: 1,
+      page: 1,
     }
   },
   created: function() {
-    http.axios.get('/reviews/1') 
+    http.axios.get('/reviews/1', { params: {page: this.page}}) 
     .then( res => {
       console.log(res)
+      this.reviewCount += res.data.result.reviewCount / 5
       if(res.data.result) {
         this.isNull = false
       }
@@ -64,7 +78,14 @@ export default {
       this.review_yn = res.data.result.reviewYn
       this.reviews = res.data.result.reviews
     })
-
+  },
+  watch: {
+    page() {
+      http.axios.get('/reviews/1', { params: {page: this.page} })
+      .then( res => {
+        this.reviews = res.data.result.reviews
+      })
+    } 
   },
   methods: {
     reload() {

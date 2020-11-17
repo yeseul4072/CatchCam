@@ -112,27 +112,27 @@
         height="300px"
         color="#23252d"
         flat
-        class="d-flex flex-column align-start justify-center mx-3"
+        class="d-flex flex-column align-start justify-space-around mx-3"
         > 
-          <v-card-title class="white--text explain pb-3">
-            {{ review.userName }}
-          </v-card-title>
-          <v-card-subtitle class="date-text pb-0" style="color:rgb(148, 148, 148);">
-            {{ review.strCreateDate }}
-          </v-card-subtitle>
-          <v-rating
-            :value="review.starRate"
-            readonly
-            color="yellow darken-3"
-            background-color="grey darken-1"
-            empty-icon="$ratingFull"
-            dense
-            size="15"
-            class="pl-3"
-          ></v-rating>
-          <v-card-text class="white--text pt-2">
-            {{ review.content }}
-          </v-card-text>
+          <div class="card-title">
+            <v-card-title class="white--text explain">
+              {{ review.userName }}
+            </v-card-title>
+            <v-card-subtitle class="date-text pb-0" style="color:rgb(148, 148, 148);">
+              {{ review.strCreateDate }}
+            </v-card-subtitle>
+            <v-rating
+              :value="review.starRate"
+              readonly
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              empty-icon="$ratingFull"
+              dense
+              size="15"
+              class="pl-3"
+            ></v-rating>
+          </div>
+            <p class="card-content white--text explain-sm mx-3">{{ review.content }}</p>
         </v-card>
       </div>
 
@@ -259,6 +259,9 @@ export default {
 .explain {
   font-size: 17px;
 }
+.explain-sm {
+  font-size: 14px;
+}
 .intro_title {
   font-size: 24px;
   font-weight: bold;
@@ -302,5 +305,22 @@ export default {
 }
 .box {
   margin-bottom: 10rem;
+}
+.card-title {
+  position: absolute;
+  top: 1rem;
+}
+.card-content {
+  position: absolute;
+  top: 7rem;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8; /* 라인수 */
+  -webkit-box-orient: vertical;
+  word-wrap:break-word; 
+  line-height: 1.2em;
+  height: 9.6em;
 }
 </style>

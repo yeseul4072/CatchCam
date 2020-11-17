@@ -47,10 +47,11 @@ public class RentalServiceImpl implements RentalService {
 	}
 
 	@Override
-	public ReviewListResponse getReviewList(long itemId, long userId) throws Exception{
+	public ReviewListResponse getReviewList(long itemId, long userId, int page) throws Exception{
 		ReviewListResponse reviewList = rentalRepository.getItemReview(itemId, userId);
 		if(reviewList != null) {
-			reviewList.setReviews(rentalRepository.getReviewList(itemId, userId));
+			int startPage = (page-1) * 5;
+			reviewList.setReviews(rentalRepository.getReviewList(itemId, userId, startPage));
 		}
 		return reviewList;
 	}

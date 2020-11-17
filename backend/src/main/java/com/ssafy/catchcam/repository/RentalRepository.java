@@ -31,7 +31,7 @@ public interface RentalRepository {
 	public ReviewListResponse getItemReview(@Param("itemId") long itemId, @Param("userId") long userId) throws Exception;
 
 	//리뷰 목록 조회
-	public List<ReviewResponse> getReviewList(@Param("itemId") long itemId, @Param("userId") long userId) throws Exception;
+	public List<ReviewResponse> getReviewList(@Param("itemId") long itemId, @Param("userId") long userId, @Param("startPage") int startPage) throws Exception;
 	
 	//리뷰 등록
 	public void insertReview(@Param("rental") ReviewRequest rental, @Param("userId") long userId) throws Exception;

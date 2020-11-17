@@ -97,6 +97,7 @@ public class RentalController {
 	@GetMapping("/item/{itemId}")
 	@ApiOperation(value = "단일 상품 조회")
 	public ResponseEntity<CommonResponse> getItemInfo(@PathVariable long itemId) {
+		
 		log.info(">> Load : getItemInfo <<");
 		ResponseEntity<CommonResponse> response = null;
 		final CommonResponse result = new CommonResponse();
@@ -118,7 +119,7 @@ public class RentalController {
 //			@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "로그인 성공 후 access_token", required = true, dataType = "String", paramType = "header") })
 	@GetMapping("/reviews/{itemId}")
 	@ApiOperation(value = "모든 리뷰 목록 조회")
-	public ResponseEntity<CommonResponse> getReviewList(@PathVariable long itemId) {
+	public ResponseEntity<CommonResponse> getReviewList(@PathVariable long itemId, @RequestParam("page") int page) {
 		log.info(">> Load : getReviewList <<");
 		ResponseEntity<CommonResponse> response = null;
 		final CommonResponse result = new CommonResponse();
@@ -131,7 +132,7 @@ public class RentalController {
 				user = new UserAuthDetails();
 				user.setUserId(0);
 			}
-			result.result = rentalService.getReviewList(itemId, user.getUserId());
+			result.result = rentalService.getReviewList(itemId, user.getUserId(), page);
 			result.msg = "success";
 			response = new ResponseEntity<CommonResponse>(result, HttpStatus.OK);
 		} catch (Exception e) {

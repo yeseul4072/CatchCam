@@ -25,7 +25,7 @@ public interface RentalService {
 	public ItemResponse getItemInfo(long itemId) throws Exception;
 
 	//리뷰 목록 조회
-	public ReviewListResponse getReviewList(long itemId, long userId) throws Exception;
+	public ReviewListResponse getReviewList(long itemId, long userId, int page) throws Exception;
 	
 	//리뷰 등록
 	public void insertReview(ReviewRequest rental) throws Exception;

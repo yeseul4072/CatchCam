@@ -115,7 +115,8 @@
 		  	   on
 		  	   rv.rental_id = rt.rental_id
 		 where rt.item_id = #{itemId}
-	  order by rv.review_id desc;
+	  order by rv.review_id desc
+	     limit #{startPage}, 5;
 	</select>	
 	
 	<!-- 대여한 사람과 리뷰를 작성할 사람이 같은 지 확인 -->

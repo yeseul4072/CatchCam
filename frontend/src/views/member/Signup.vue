@@ -103,6 +103,7 @@ export default {
         .digits()
         .has()
         .letters()
+        document.title = 'CatchCam - 회원가입'
     },
     watch: {
         'signupData.userName': function() {
@@ -181,7 +182,7 @@ export default {
                     alert("이미 가입한 회원입니다")
                 })
             }
-    }
+    },
 }
 </script>
 

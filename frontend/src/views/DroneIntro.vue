@@ -109,7 +109,7 @@ export default {
     .catch ( err => {
       console.log(err)
     })
-
+    document.title = 'CatchCam - 대여하기'
   },
   mounted() {
     // this.headerTop = document.querySelector(".tabs").offsetTop

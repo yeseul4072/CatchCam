@@ -9,13 +9,15 @@
             fixed-tabs
             background-color="transparent"
             color="#018F26"
+            class="tabs"
+            v-bind:class="{ 'sticky': isFixed }"
           >
-            <v-tab style="color:white">상품 설명</v-tab>
-            <v-tab style="color:white">대여 이용 안내</v-tab>
-            <v-tab style="color:white">후기</v-tab>
-            <v-tab style="color:white">질문</v-tab>
+            <v-tab style="color:white" @click="scrollToExplain()">상품 설명</v-tab>
+            <v-tab style="color:white" @click="scrollToGuide()">대여 이용 안내</v-tab>
+            <v-tab style="color:white" @click="scrollToReview()">후기</v-tab>
+            <!-- <v-tab style="color:white">질문</v-tab> -->
           </v-tabs>
-        <div class="subtitle">상품 설명</div>
+        <div class="subtitle explain">상품 설명</div>
         <ul class="mb-5">
           <li>실내에 최적화된 크기와 무게</li>
           <li>비상착륙 기능 등 높은 안전성</li>
@@ -27,13 +29,15 @@
  CATCHCAM과 함께라면 그 어느 때보다 즐거운 경기가 가능합니다!</div>
 
         <div class="subtitle">사용 방법</div>
-          <iframe width="720" height="486" class="embed-responsive-item" type="text/html" :src="videoUrl" frameborder="0"></iframe>
-        <div class="subtitle">이용 안내</div>
+        <div class="video-container">
+          <iframe class="embed-responsive-item" type="text/html" :src="videoUrl" frameborder="0"></iframe>
+        </div>
+        <div class="guide subtitle">이용 안내</div>
         <v-img
-          class="mx-15"
+          class="mx-5"
           src="@/assets/guide.png"
         ></v-img>
-        <div class="subtitle">후기</div>
+        <div class="review subtitle">후기</div>
         <Reviews :drone="drone"/>
         <!-- <div class="subtitle">질문</div> -->
         
@@ -69,8 +73,10 @@ export default {
     return {
       drone: null,
       rentalTop: 0,
-      isSticky: false,
       videoUrl: null,
+      scrolled: false,
+      headerTop: 0,
+      isFixed: false,
     };
   },
   filters: {
@@ -80,8 +86,6 @@ export default {
     }
   },
   created () {
-    console.log('여길봐')
-    console.log(process.env.VUE_APP_YOUTUBE_API_KEY)
     http.axios.get('/item/1') 
     .then (res => {
       this.drone = res.data.result
@@ -99,19 +103,38 @@ export default {
       }
     })
     .then( res => {
-      console.log(res.data.items[0].id.videoId)
       const videoId = res.data.items[0].id.videoId
       this.videoUrl = `https://www.youtube.com/embed/${videoId}`
+    })
+    .catch ( err => {
+      console.log(err)
     })
 
   },
   mounted() {
-    window.addEventListener('scroll', this.detectWindowScrollY)
+    // this.headerTop = document.querySelector(".tabs").offsetTop
+    // window.addEventListener('scroll', this.detectWindowScrollY)
   },
   methods: {
-    detectWindowScrollY() {
-      // if(window.scrollY > this.Rental.getBoundingClientRect().top + window.pageYOffset) {
-      // }
+    // detectWindowScrollY() {
+    //   this.scrolled = window.scrollY > this.headerTop ? true : false
+    //   console.log(this.scrolled)
+      // const header = this.header
+      // this.scrolled
+      //   ? header.classList.add('scrolled')
+      //   : header.classList.remove('scrolled')
+    // },
+    scrollToExplain() {
+      var location = document.querySelector(".explain").offsetTop;
+      window.scrollTo({top:location, behavior:'smooth'});
+    },
+    scrollToGuide() {
+      var location = document.querySelector(".guide").offsetTop;
+      window.scrollTo({top:location, behavior:'smooth'});
+    },
+    scrollToReview() {
+      var location = document.querySelector(".review").offsetTop;
+      window.scrollTo({top:location, behavior:'smooth'});
     }
   }
 };
@@ -121,7 +144,6 @@ export default {
 .droneintro {
   margin-top: 72px;
 }
-
 .title {
   font-weight: 900;
   height: 50px;
@@ -139,6 +161,26 @@ export default {
 .sticky {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
+}
+.video-container { 
+    margin: 0;
+    padding-bottom: 75%; 
+    max-width: 100%; 
+    height: 0;  
+    position: relative;
+    overflow: hidden;
+} 
+.video-container iframe, 
+.video-container object,
+.video-container embed {
+    margin: 0;
+    padding: 0;  
+    width: 100%; 
+    height: 100%;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
 }
 </style>

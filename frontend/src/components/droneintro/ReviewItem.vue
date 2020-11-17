@@ -1,9 +1,9 @@
 <template>
   <div>
     <hr class="my-hr">
-    <div class="my-3">
+    <div class="mt-5 mb-7">
       <div class="d-flex justify-space-between">
-        <div class="d-flex align-center">
+        <div class="d-flex align-center my-3">
           <div>{{ review.userName }}</div>
           <div class="date-text">{{ review.strCreateDate }}</div>
           <v-rating
@@ -114,7 +114,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="pr-10 content">
         {{ review.content }}
       </div>
     </div>
@@ -174,6 +174,9 @@ export default {
   border: 0;
   height: 1px;
   background-color:rgb(148, 148, 148);
+}
+.content {
+  font-size: 14px;
 }
 
 </style>

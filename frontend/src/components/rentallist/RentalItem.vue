@@ -2,7 +2,7 @@
   <v-card
     color="#23252d"
     class="ma-3 my-card"
-    height="425"
+    height="450"
     
   >
     <!-- {{ rentalItem.rentalId }} -->
@@ -35,7 +35,7 @@
         </v-card-title>
       </div>
       <div class="white--text my-1 mx-5" style="font-size:1.2rem;">
-        ₩{{ rentalItem.cost }}
+        ₩{{ cost | comma }}
       </div>
     </div>
 
@@ -184,14 +184,14 @@ export default {
         content: null,
         rentalId: this.rentalItem.rentalId,
         starRate: null,
-      }
+      },
+      cost: 0
     }
   },
   methods: {
     createReview() {
       http.axios.post('/review', this.reviewData)
-      .then( res => {
-        console.log(res)
+      .then(() => {
       })
       .catch( err => {
         console.log(err)
@@ -209,7 +209,26 @@ export default {
         // console.log(err)
       })
     }
-  }
+  },
+  created: function() {
+  var d1 = this.rentalItem.strReturnDate
+  var d2 = this.rentalItem.strRentDate
+  var arr1 = d1.split('-')
+  var arr2 = d2.split('-')
+  
+  var returnDate = new Date(arr1[0], arr1[1], arr1[2])
+  var rentDate = new Date(arr2[0], arr2[1], arr2[2])
+  var currDay = 24 * 60 * 60 * 1000
+
+  var term = parseInt((returnDate - rentDate)/currDay)
+  this.cost = term * this.rentalItem.cost
+  },
+  filters: {
+    comma: function(value) {
+      var num = new Number(value);
+      return num.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+  },
 }
 </script>
 

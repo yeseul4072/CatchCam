@@ -23,6 +23,40 @@
 
 <br>
 
+## ✅ Main Function
+
+- **Drone rental**
+  
+  - Check the location of the branch through the map
+  - Apply for rental after entering the rental date
+# <img src="../img/rent.gif" width=100%>  
+
+- **Drone rental history**
+  - View rental list and details
+  - Reservation cancellation function
+# <img src="../img/rent_history.gif" width=100%>  
+
+- **Drone operation using a controller**
+  
+  - Simple operation such as up, down, left, right and rotation is possible
+  - On the left side of the screen, the scene captured by the drone's camera is transmitted in real time
+# <img src="../img/drone_controller.gif" width=100%>
+
+- **Object tracking autonomous driving shooting**
+  - Recognize the ball as an object
+# <img src="../img/auto_tracking.gif" width=100%>  
+  - Recognize the person as an object    
+# <img src="../img/auto_tracking2.gif" width=100%>
+
+- **Screen recording function**
+  
+  - Save the video captured by the drone as a file
+# <img src="../img/record.gif" width=100%>
+
+<br>
+
+<br>
+
 ## 🎥 Demonstration
 
 > Click the image below to watch the demo video.
@@ -30,7 +64,6 @@
 [![Children-ZIP Demo video](../img/mainpage.JPG)](https://youtu.be/MJfI8611Jq8)
 
 <br>
-
 
 <br>
 

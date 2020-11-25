@@ -192,9 +192,9 @@ Therefore, **CatchCam** provides a service for autonomous driving and shooting t
 # <img src="../img/drone_controller.gif" width=100%>
 
 - **Object tracking autonomous driving shooting**
-  - Recognize the ball as an object
+1. Recognize the ball as an object
 # <img src="../img/auto_tracking.gif" width=100%>  
-  - Recognize the person as an object    
+2. Recognize the person as an object    
 # <img src="../img/auto_tracking2.gif" width=100%>
 
 - **Screen recording function**

@@ -1,12 +1,20 @@
+[<img src="./img/banner.png" width=100%>](https://catchcam.site)
+
+![vuejs badge](https://img.shields.io/badge/vue-2.6.11-%234FC08D?style=plastic&logo=Vue.js)  ![spring boot badge](https://img.shields.io/badge/Spring%20Boot-2.4.0-%236DB33F?style=plastic&logo=spring) ![mysql badge](https://img.shields.io/badge/MySQL-8.0-%234479A1?style=plastic&logo=mysql) ![flask badge](https://img.shields.io/badge/Flask-1.1.2-%23000000?style=plastic&logo=flask) ![build passing badge](https://img.shields.io/badge/build-passing-brightgreen?style=plastic)
+
+<br>
+
+### 번역: [KR](#) [US](./docs)
+
+<br>
+
 # :small_airplane: CatchCam (Catch me if you Cam)
 
-<img src="/uploads/d71b1a72e479d329e1bcc84cb8664f92/CatchCam_logo.png"  width="500">
-
-Ball tracking을 활용한 자율주행 촬영 드론 서비스
+Object tracking을 활용한 자율주행 촬영 드론 서비스
 
 
 
-### 💻 프로젝트 소개
+## 💻 프로젝트 소개
 
 * 경기하는 내 모습 간직하고 싶을 때
 * 경기 분석이 필요할 때
@@ -23,22 +31,30 @@ CatchCam은 위 요구사항을 만족시키기 위해 기획하였습니다.
 
 
 
-### 📽 사용방법
+## 📽 사용방법
 
 [![CatchCam 사용방법](http://img.youtube.com/vi/85DyUDAbDY0/0.jpg)](https://youtu.be/85DyUDAbDY0?t=0s)
 
 
 
-### 📃 ERD
+## 📃 ERD
 <img src="/uploads/7b47f28b8aebcfb9ff9dd87d061b1f91/ERD.JPG"  width="700">
 
 
 
-### 📅 개발 일정
+## 📅 개발 일정
 <img src="/uploads/f3430139b1410bff79c7d1d84e126af3/개발_일정.png"  width="700">
 
+<br>
+
+## 🌏 지원하는 브라우저
+
+| <img src='./img/chrome.png' width=60> | <img src='./img/firefox.png' width=60> | <img src='./img/edge.png' width=60> | <img src='./img/safari.png' width=60> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                            latest                            |                            latest                            |                            latest                            |                            latest                            |
+
+<br>
 
 
-
-### 👪 팀원
+## 👪 팀원
 <img src="/uploads/12f9a8f82ecc533fd8190b53a71ec8bc/팀원.png"  width="700">

@@ -8,6 +8,19 @@
 
 <br>
 
+## 📌 Table of Contents
+
+- [Tech Stacks](#-Tech-Stacks)
+- [Project Structure](#-Project-Structure)
+- [ERD](#-ERD)
+- [Project Process](#-Project-Process)
+- [Main Function](#-Main-Function)
+- [Demonstration](#-Demonstration)
+- [Browsers Supported](#-Browsers-Supported)
+- [Developers](#-Developers)
+
+<br>
+
 <br>
 
 ## 🌏 Browsers Supported

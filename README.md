@@ -179,31 +179,30 @@
 - **드론 대여**
   - 지도를 통한 지점 위치 확인
   - 대여 날짜 입력 후 대여 신청
-# <img src="./img/rent.gif" width=50%>  
+# <img src="./img/rent.gif" width=100%>  
 
 - **드론 대여 내역**
   
   - 대여 목록과 완료된 대여 내역 조회
   - 예약 취소
-# <img src="./img/rent_history.gif" width=50%>  
+# <img src="./img/rent_history.gif" width=100%>  
 
 - **컨트롤러를 이용한 드론 조작**
   
   - 상 하 좌 우 및 회전 등의 간단한 조작 가능
   - 화면 왼쪽에서 드론의 카메라로 찍히는 장면을 실시간으로 송출
-# <img src="./img/drone_controller.gif" width=50%>
+# <img src="./img/drone_controller.gif" width=100%>
 
 - **객체 추적 자율주행 촬영**
-  
 1. 공을 객체로 인식
-# <img src="./img/auto_tracking.gif" width=50%>  
+# <img src="./img/auto_tracking.gif" width=100%>  
 2. 사람을 객체로 인식    
-# <img src="./img/auto_tracking2.gif" width=50%>
+# <img src="./img/auto_tracking2.gif" width=100%>
 
 - **화면 녹화 기능**
   
   - 드론에서 촬영한 영상을 파일로 저장
-# <img src="./img/record.gif" width=50%>
+# <img src="./img/record.gif" width=100%>
 
 <br>
 

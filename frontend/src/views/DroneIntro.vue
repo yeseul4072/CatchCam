@@ -58,7 +58,6 @@ import Footer from '@/components/Footer'
 import http from '@/api/api.js'
 
 const API_KEY = process.env.VUE_APP_YOUTUBE_API_KEY
-// const API_KEY = 'AIzaSyBiEadK_9db-e-iOFm8K-PCYGYovrl8Tho'
 const API_URL = 'https://www.googleapis.com/youtube/v3/search'
 
 
@@ -109,7 +108,7 @@ export default {
     .catch ( err => {
       console.log(err)
     })
-
+    document.title = 'CatchCam - 대여하기'
   },
   mounted() {
     // this.headerTop = document.querySelector(".tabs").offsetTop

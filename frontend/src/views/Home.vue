@@ -152,10 +152,10 @@
         </div>
         <div class="mr-15">
           <div class="text-h4">
-            CATCHCAM을 <br>지금 바로 시작해보세요!
+            CatchCam을 <br>지금 바로 시작해보세요!
           </div>
           <div class="mt-3">
-            간단한 절차를 통해 CATCHCAM을 사용할 수 있습니다. <br> 대여 페이지에서 대여와 관련된 자세한 정보를 확인하세요. 
+            간단한 절차를 통해 CatchCam을 사용할 수 있습니다. <br> 대여 페이지에서 대여와 관련된 자세한 정보를 확인하세요. 
           </div>
           <div>
             <v-btn
@@ -239,6 +239,7 @@ export default {
     },
   },
   created: function() {
+    document.title = 'CatchCam'
     http.axios.get('reviews/recent') 
     .then( res => {
       this.reviews = res.data.result

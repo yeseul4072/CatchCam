@@ -48,6 +48,7 @@ export default {
     .catch( res => {
       console.log(res)
     })
+    document.title = 'CatchCam - 대여 내역'
   }
 }
 </script>
